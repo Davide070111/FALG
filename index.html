@@ -53,6 +53,111 @@
     }
   </style>
 </head>
+  <!-- === SMART AUTO-CASCADE (Day 3 -> Day 7 & Day 18) === -->
+<script>
+(function () {
+  const CASCADE_KEY = 'algebra_tracker_cascades_v1';
+  const loadCascades = () => JSON.parse(localStorage.getItem(CASCADE_KEY) || '{}');
+  const saveCascades = (data) => localStorage.setItem(CASCADE_KEY, JSON.stringify(data));
+
+  // Automatically extracts the card's date (supports data-date="YYYY-MM-DD" or visible date headings)
+  function getCardDate(card) {
+    if (card.dataset && card.dataset.date) {
+      return new Date(card.dataset.date + 'T00:00:00');
+    }
+    const text = card.textContent || '';
+    const match = text.match(/\b(Nov|Dec|Jan)\s+(\d{1,2})\b/i);
+    if (!match) return null;
+    const months = { nov: 10, dec: 11, jan: 0 };
+    const m = months[match[1].toLowerCase()];
+    const year = m === 0 ? 2027 : 2026;
+    return new Date(year, m, parseInt(match[2], 10));
+  }
+
+  function addDays(date, days) {
+    const copy = new Date(date.getTime());
+    copy.setDate(copy.getDate() + days);
+    return copy;
+  }
+
+  function sameDay(d1, d2) {
+    return d1 && d2 &&
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getDate() === d2.getDate();
+  }
+
+  // Locates every day card and its notes input/textarea
+  function getDayCards() {
+    const inputs = Array.from(document.querySelectorAll('input[type="text"], textarea'));
+    return inputs.map(input => {
+      const card = input.closest('[data-date], .day-card, .card, article, li, div');
+      const date = card ? getCardDate(card) : null;
+      return date ? { card, input, date } : null;
+    }).filter(Boolean);
+  }
+
+  // Injects or updates synced review badges on Day 7 (+4d) and Day 18 (+15d)
+  function renderCascades() {
+    const cascades = loadCascades();
+    const cards = getDayCards();
+
+    cards.forEach(({ card, input, date }) => {
+      // Populate input if this date is a source Day 3 entry
+      const iso = date.toISOString().slice(0, 10);
+      if (cascades[iso] && document.activeElement !== input && !input.value) {
+        input.value = cascades[iso];
+      }
+
+      // Remove existing auto-cascade box before re-rendering
+      const oldBox = card.querySelector('.auto-cascade-box');
+      if (oldBox) oldBox.remove();
+
+      const inherited = [];
+      Object.entries(cascades).forEach(([srcIso, text]) => {
+        if (!text.trim()) return;
+        const srcDate = new Date(srcIso + 'T00:00:00');
+        if (sameDay(date, addDays(srcDate, 4))) {
+          inherited.push({ stage: 'Day 7 Auto-Review', text, srcIso });
+        } else if (sameDay(date, addDays(srcDate, 15))) {
+          inherited.push({ stage: 'Day 18 Auto-Review', text, srcIso });
+        }
+      });
+
+      if (inherited.length > 0) {
+        const box = document.createElement('div');
+        box.className = 'auto-cascade-box';
+        box.style.cssText = 'margin-top:8px;padding:6px 10px;border-left:3px solid #06b6d4;background:rgba(6,182,212,0.08);border-radius:6px;font-size:0.82rem;';
+        box.innerHTML = inherited.map(item =>
+          `<div style="margin:2px 0;"><strong>${item.stage}:</strong> ${item.text.replace(/</g, '&lt;')}</div>`
+        ).join('');
+        input.parentNode.insertBefore(box, input.nextSibling);
+      }
+    });
+  }
+
+  // Listen for typing in any day's notes box
+  document.addEventListener('input', (e) => {
+    const target = e.target;
+    if (!target.matches('input[type="text"], textarea')) return;
+    const card = target.closest('[data-date], .day-card, .card, article, li, div');
+    const date = card ? getCardDate(card) : null;
+    if (!date) return;
+
+    const cascades = loadCascades();
+    const iso = date.toISOString().slice(0, 10);
+    cascades[iso] = target.value;
+    saveCascades(cascades);
+    renderCascades();
+  });
+
+  // Initial render + watch for dynamic re-renders (e.g., when adding remaining pages)
+  window.addEventListener('DOMContentLoaded', renderCascades);
+  const observer = new MutationObserver(() => renderCascades());
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200">
 
   <!-- Sticky Header -->
