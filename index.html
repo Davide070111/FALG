@@ -1208,110 +1208,191 @@
       bindEvents();
     });
   </script>
-  <!-- === SMART AUTO-CASCADE (Day 3 -> Day 7 & Day 18) === -->
+<!-- === SMART AUTO-CASCADE (Day 3 -> Day 7 [+4d] & Day 18 [+15d]) === -->
 <script>
 (function () {
-  const CASCADE_KEY = 'algebra_tracker_cascades_v1';
-  const loadCascades = () => JSON.parse(localStorage.getItem(CASCADE_KEY) || '{}');
-  const saveCascades = (data) => localStorage.setItem(CASCADE_KEY, JSON.stringify(data));
+  const CASCADE_KEY = 'algebra_tracker_cascades_v2';
+  const DONE_KEY = 'algebra_tracker_cascade_done_v2';
+  let isRendering = false;
 
-  // Automatically extracts the card's date (supports data-date="YYYY-MM-DD" or visible date headings)
-  function getCardDate(card) {
-    if (card.dataset && card.dataset.date) {
-      return new Date(card.dataset.date + 'T00:00:00');
-    }
-    const text = card.textContent || '';
-    const match = text.match(/\b(Nov|Dec|Jan)\s+(\d{1,2})\b/i);
-    if (!match) return null;
-    const months = { nov: 10, dec: 11, jan: 0 };
-    const m = months[match[1].toLowerCase()];
-    const year = m === 0 ? 2027 : 2026;
-    return new Date(year, m, parseInt(match[2], 10));
+  const MONTHS = {
+    jan: 0, january: 0, feb: 1, february: 1, mar: 2, march: 2,
+    apr: 3, april: 3, may: 4, jun: 5, june: 5, jul: 6, july: 6,
+    aug: 7, august: 7, sep: 8, september: 8, oct: 9, october: 9,
+    nov: 10, november: 10, dec: 11, december: 11
+  };
+
+  function loadJSON(key) {
+    try { return JSON.parse(localStorage.getItem(key) || '{}'); }
+    catch { return {}; }
+  }
+  function saveJSON(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
   }
 
-  function addDays(date, days) {
-    const copy = new Date(date.getTime());
-    copy.setDate(copy.getDate() + days);
+  function extractFirstDate(text) {
+    if (!text) return null;
+
+    // 1. ISO YYYY-MM-DD
+    let m = text.match(/\b(202\d)-(\d{2})-(\d{2})\b/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+
+    // 2. Month DD (e.g. "Nov 24" or "November 24")
+    m = text.match(/\b(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\.?\s+(\d{1,2})\b/i);
+    if (m) {
+      const month = MONTHS[m[1].toLowerCase()];
+      const day = parseInt(m[2], 10);
+      const year = month <= 5 ? 2027 : 2026;
+      return new Date(year, month, day);
+    }
+
+    // 3. DD Month (e.g. "24 Nov" or "24 November")
+    m = text.match(/\b(\d{1,2})\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\.?\b/i);
+    if (m) {
+      const day = parseInt(m[1], 10);
+      const month = MONTHS[m[2].toLowerCase()];
+      const year = month <= 5 ? 2027 : 2026;
+      return new Date(year, month, day);
+    }
+
+    return null;
+  }
+
+  function toIso(d) {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  function addDays(d, n) {
+    const copy = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    copy.setDate(copy.getDate() + n);
     return copy;
   }
 
-  function sameDay(d1, d2) {
-    return d1 && d2 &&
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate();
-  }
-
-  // Locates every day card and its notes input/textarea
-  function getDayCards() {
-    const inputs = Array.from(document.querySelectorAll('input[type="text"], textarea'));
-    return inputs.map(input => {
-      const card = input.closest('[data-date], .day-card, .card, article, li, div');
-      const date = card ? getCardDate(card) : null;
-      return date ? { card, input, date } : null;
-    }).filter(Boolean);
-  }
-
-  // Injects or updates synced review badges on Day 7 (+4d) and Day 18 (+15d)
-  function renderCascades() {
-    const cascades = loadCascades();
-    const cards = getDayCards();
-
-    cards.forEach(({ card, input, date }) => {
-      // Populate input if this date is a source Day 3 entry
-      const iso = date.toISOString().slice(0, 10);
-      if (cascades[iso] && document.activeElement !== input && !input.value) {
-        input.value = cascades[iso];
+  // Finds the exact day-card container by checking for sibling cards with dates
+  function findDayCard(input) {
+    let el = input.parentElement;
+    while (el && el !== document.body) {
+      if (el.dataset && el.dataset.date) {
+        const d = extractFirstDate(el.dataset.date);
+        if (d) return { card: el, date: d };
       }
+      const parent = el.parentElement;
+      if (parent && parent !== document.body) {
+        const datedSiblings = Array.from(parent.children).filter(
+          child => extractFirstDate(child.innerText) !== null
+        );
+        if (datedSiblings.length >= 2) {
+          const d = extractFirstDate(el.innerText);
+          if (d) return { card: el, date: d };
+        }
+      }
+      el = parent;
+    }
+    return null;
+  }
 
-      // Remove existing auto-cascade box before re-rendering
-      const oldBox = card.querySelector('.auto-cascade-box');
-      if (oldBox) oldBox.remove();
+  function renderCascades() {
+    if (isRendering) return;
+    isRendering = true;
 
-      const inherited = [];
-      Object.entries(cascades).forEach(([srcIso, text]) => {
-        if (!text.trim()) return;
-        const srcDate = new Date(srcIso + 'T00:00:00');
-        if (sameDay(date, addDays(srcDate, 4))) {
-          inherited.push({ stage: 'Day 7 Auto-Review', text, srcIso });
-        } else if (sameDay(date, addDays(srcDate, 15))) {
-          inherited.push({ stage: 'Day 18 Auto-Review', text, srcIso });
+    try {
+      const cascades = loadJSON(CASCADE_KEY);
+      const doneMap = loadJSON(DONE_KEY);
+
+      const inputs = Array.from(document.querySelectorAll('input[type="text"], input:not([type]), textarea'))
+        .filter(inp => !inp.closest('header, nav, [id*="modal" i], [class*="modal" i]'));
+
+      inputs.forEach(input => {
+        const found = findDayCard(input);
+        if (!found) return;
+        const { card, date } = found;
+        const iso = toIso(date);
+
+        if (cascades[iso] !== undefined && document.activeElement !== input && input.value !== cascades[iso]) {
+          input.value = cascades[iso];
+        }
+
+        card.querySelectorAll('.auto-cascade-box').forEach(b => b.remove());
+
+        const inherited = [];
+        Object.entries(cascades).forEach(([srcIso, text]) => {
+          if (!text || !text.trim()) return;
+          const [y, m, d] = srcIso.split('-').map(Number);
+          const srcDate = new Date(y, m - 1, d);
+
+          if (toIso(addDays(srcDate, 4)) === iso) {
+            inherited.push({ id: `${srcIso}_d7`, stage: 'Day 7 Review (+4d)', text });
+          } else if (toIso(addDays(srcDate, 15)) === iso) {
+            inherited.push({ id: `${srcIso}_d18`, stage: 'Day 18 Review (+15d)', text });
+          }
+        });
+
+        if (inherited.length > 0) {
+          const box = document.createElement('div');
+          box.className = 'auto-cascade-box';
+          box.style.cssText = 'margin-top:8px;padding:8px 10px;border-left:3px solid #06b6d4;background:rgba(6,182,212,0.12);border-radius:6px;font-size:0.82rem;display:flex;flex-direction:column;gap:4px;';
+
+          inherited.forEach(item => {
+            const row = document.createElement('label');
+            row.style.cssText = 'display:flex;align-items:flex-start;gap:6px;cursor:pointer;';
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.checked = !!doneMap[item.id];
+            cb.style.marginTop = '3px';
+            cb.addEventListener('change', () => {
+              const latest = loadJSON(DONE_KEY);
+              latest[item.id] = cb.checked;
+              saveJSON(DONE_KEY, latest);
+              span.style.textDecoration = cb.checked ? 'line-through' : 'none';
+              span.style.opacity = cb.checked ? '0.6' : '1';
+            });
+
+            const span = document.createElement('span');
+            span.style.textDecoration = cb.checked ? 'line-through' : 'none';
+            span.style.opacity = cb.checked ? '0.6' : '1';
+            span.innerHTML = `<strong>${item.stage}:</strong> ${item.text.replace(/</g, '&lt;')}`;
+
+            row.appendChild(cb);
+            row.appendChild(span);
+            box.appendChild(row);
+          });
+
+          input.insertAdjacentElement('afterend', box);
         }
       });
-
-      if (inherited.length > 0) {
-        const box = document.createElement('div');
-        box.className = 'auto-cascade-box';
-        box.style.cssText = 'margin-top:8px;padding:6px 10px;border-left:3px solid #06b6d4;background:rgba(6,182,212,0.08);border-radius:6px;font-size:0.82rem;';
-        box.innerHTML = inherited.map(item =>
-          `<div style="margin:2px 0;"><strong>${item.stage}:</strong> ${item.text.replace(/</g, '&lt;')}</div>`
-        ).join('');
-        input.parentNode.insertBefore(box, input.nextSibling);
-      }
-    });
+    } finally {
+      isRendering = false;
+    }
   }
 
-  // Listen for typing in any day's notes box
   document.addEventListener('input', (e) => {
     const target = e.target;
-    if (!target.matches('input[type="text"], textarea')) return;
-    const card = target.closest('[data-date], .day-card, .card, article, li, div');
-    const date = card ? getCardDate(card) : null;
-    if (!date) return;
+    if (!target.matches('input[type="text"], input:not([type]), textarea')) return;
+    const found = findDayCard(target);
+    if (!found) return;
 
-    const cascades = loadCascades();
-    const iso = date.toISOString().slice(0, 10);
-    cascades[iso] = target.value;
-    saveCascades(cascades);
+    const cascades = loadJSON(CASCADE_KEY);
+    cascades[toIso(found.date)] = target.value;
+    saveJSON(CASCADE_KEY, cascades);
     renderCascades();
   });
 
-  // Initial render + watch for dynamic re-renders (e.g., when adding remaining pages)
-  window.addEventListener('DOMContentLoaded', renderCascades);
-  const observer = new MutationObserver(() => renderCascades());
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderCascades);
+  } else {
+    renderCascades();
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    const relevant = mutations.some(m =>
+      Array.from(m.addedNodes).some(n => n.nodeType === 1 && !n.classList.contains('auto-cascade-box'))
+    );
+    if (relevant) renderCascades();
+  });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
+
 
 </body>
 </html>
