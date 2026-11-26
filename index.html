@@ -3,26 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Linear Algebra &amp; Geometry — Spaced Repetition Tracker</title>
+  <title>Linear Algebra &amp; Geometry — Spaced Repetition Calendar</title>
 
-  <!-- iOS Home Screen & PWA Meta Tags -->
+  <!-- No-Cache Directives so Updates Load Immediately -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <!-- iOS Home Screen & PWA Web App Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Algebra Tracker" />
+  <meta name="apple-mobile-web-app-title" content="Algebra Study" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#0b1120" />
+  <meta name="theme-color" content="#070b14" />
 
-  <!-- Inline SVG App Icon for iOS Home Screen & Browser Tab -->
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230b1120'/%3E%3Crect x='14' y='14' width='152' height='152' rx='30' fill='none' stroke='%236366f1' stroke-width='4' stroke-opacity='0.5'/%3E%3Cpath d='M56 44H42v92h14M124 44h14v92h-14' fill='none' stroke='%23e2e8f0' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='72' cy='72' r='9' fill='%23818cf8'/%3E%3Ccircle cx='108' cy='72' r='9' fill='%23fbbf24'/%3E%3Ccircle cx='72' cy='108' r='9' fill='%2322d3ee'/%3E%3Ccircle cx='108' cy='108' r='9' fill='%23a78bfa'/%3E%3C/svg%3E" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230b1120'/%3E%3Cpath d='M56 44H42v92h14M124 44h14v92h-14' fill='none' stroke='%23e2e8f0' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='72' cy='72' r='9' fill='%23818cf8'/%3E%3Ccircle cx='108' cy='72' r='9' fill='%23fbbf24'/%3E%3Ccircle cx='72' cy='108' r='9' fill='%2322d3ee'/%3E%3Ccircle cx='108' cy='108' r='9' fill='%23a78bfa'/%3E%3C/svg%3E" />
+  <!-- Inline SVG App Icon for iOS Home Screen & Favicon -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230b1120'/%3E%3Crect x='14' y='14' width='152' height='152' rx='30' fill='none' stroke='%236366f1' stroke-width='4' stroke-opacity='0.55'/%3E%3Cpath d='M54 44H40v92h14M126 44h14v92h-14' fill='none' stroke='%23e2e8f0' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='72' cy='72' r='10' fill='%23818cf8'/%3E%3Ccircle cx='108' cy='72' r='10' fill='%23fbbf24'/%3E%3Ccircle cx='72' cy='108' r='10' fill='%2322d3ee'/%3E%3Ccircle cx='108' cy='108' r='10' fill='%23a78bfa'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230b1120'/%3E%3Cpath d='M54 44H40v92h14M126 44h14v92h-14' fill='none' stroke='%23e2e8f0' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='72' cy='72' r='10' fill='%23818cf8'/%3E%3Ccircle cx='108' cy='72' r='10' fill='%23fbbf24'/%3E%3Ccircle cx='72' cy='108' r='10' fill='%2322d3ee'/%3E%3Ccircle cx='108' cy='108' r='10' fill='%23a78bfa'/%3E%3C/svg%3E" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <!-- Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <script>
     tailwind.config = {
@@ -35,7 +40,7 @@
           },
           colors: {
             slate: {
-              850: '#151e32',
+              850: '#141d2f',
               925: '#0b1120',
               950: '#070b14',
             }
@@ -46,372 +51,448 @@
   </script>
 
   <style>
-    /* Safe-area padding for iOS standalone PWA mode */
+    /* Safe-area inset support for iPhone notch & home indicator */
     body {
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Subtle dark scrollbars */
+    /* Smooth tactile button and checkbox press feedback */
+    .tap-scale {
+      transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .tap-scale:active {
+      transform: scale(0.95);
+    }
+
+    /* Custom subtle scrollbar */
     ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #0b1120;
+      background: #070b14;
     }
     ::-webkit-scrollbar-thumb {
       background: #1e293b;
       border-radius: 9999px;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #334155;
-    }
-
-    /* Tactile checkbox micro-animation */
-    .checkbox-pop {
-      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, border-color 0.2s ease;
-    }
-    .checkbox-pop:active {
-      transform: scale(0.9);
-    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200">
 
-  <!-- Sticky Top Header -->
+  <!-- ===================================================================== -->
+  <!-- TOP COMPACT HEADER                                                    -->
+  <!-- ===================================================================== -->
   <header class="sticky top-0 z-30 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
-      <div>
-        <div class="flex flex-wrap items-center gap-2.5">
-          <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-400">
+    <div class="max-w-4xl mx-auto px-3.5 sm:px-6 py-3 flex flex-col gap-2.5">
+
+      <!-- Row 1: App Title & Primary Actions -->
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/15 border border-indigo-500/35 text-indigo-400 flex items-center justify-center shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h3m10 0h3M4 17h3m10 0h3M7 4v16M17 4v16M10 9l4 6m0-6l-4 6" />
             </svg>
-          </span>
-          <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">
-            Linear Algebra &amp; Geometry
-          </h1>
-          <span id="headerSyllabusBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-            150 pp. (15 Blocks)
-          </span>
-        </div>
-        <p class="text-xs sm:text-sm text-slate-400 mt-1">
-          Started Sat, Nov 21, 2026 &bull; 1–3–7–18 Auto-Cascading Tracker &bull; Exam: <span class="text-slate-200 font-medium">Thu, Jan 21, 2027</span>
-        </p>
-      </div>
-
-      <!-- Toolbar Actions -->
-      <div class="flex flex-wrap items-center gap-2">
-        <div class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="examCountdownText">Exam: Jan 21, 2027</span>
-        </div>
-
-        <button
-          id="toggleAddPagesBtn"
-          type="button"
-          class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5 cursor-pointer"
-        >
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-          <span>Add Remaining Pages</span>
-        </button>
-
-        <button
-          id="exportBackupBtn"
-          type="button"
-          class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs font-medium transition-colors cursor-pointer"
-          title="Download JSON backup of all progress, notes, and Day 3/7/18 items"
-        >
-          Export
-        </button>
-
-        <button
-          id="importBackupBtn"
-          type="button"
-          class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs font-medium transition-colors cursor-pointer"
-          title="Restore progress from a JSON backup file"
-        >
-          Import
-        </button>
-        <input id="importFileInput" type="file" accept="application/json,.json" class="hidden" />
-
-        <button
-          id="openResetModalBtn"
-          type="button"
-          class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-rose-950/50 text-slate-400 hover:text-rose-300 border border-slate-800 hover:border-rose-800/60 text-xs font-medium transition-colors cursor-pointer"
-          title="Reset all checkboxes and custom items back to Day 1 defaults"
-        >
-          Reset
-        </button>
-      </div>
-    </div>
-
-    <!-- Collapsible Non-Destructive "Add Remaining Course Pages" Drawer -->
-    <div id="addPagesDrawer" class="hidden border-t border-slate-800/90 bg-slate-900/95">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div class="space-y-1 max-w-2xl">
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-              NON-DESTRUCTIVE UPDATE
-            </span>
-            <h2 class="text-sm font-semibold text-white">Append Remaining Course Pages (Topics 6 &amp; 7)</h2>
           </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Enter either <strong class="text-slate-200">extra pages to add</strong> (e.g., <code class="font-mono text-indigo-300">+45</code>) or your <strong class="text-slate-200">new total page count</strong> (e.g., <code class="font-mono text-indigo-300">195</code>). New 10-page blocks (and any final partial block) append sequentially after Block <span id="drawerLastBlockLabel" class="font-mono text-slate-200">B15</span> with full Day 3, Day 7, and Day 18 reviews—keeping every existing checkbox, note, and custom item intact.
-          </p>
+          <div class="min-w-0">
+            <h1 class="text-sm sm:text-base font-bold tracking-tight text-white truncate">
+              Linear Algebra &amp; Geometry
+            </h1>
+            <p class="text-[11px] text-slate-400 truncate">
+              1–3–7–18 Spaced Repetition Calendar
+            </p>
+          </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2.5">
-          <div class="flex items-center bg-slate-950 border border-slate-700 rounded-xl p-1">
-            <select id="addPageModeSelect" class="bg-transparent text-xs font-medium text-slate-300 px-2.5 py-1.5 focus:outline-none cursor-pointer">
-              <option value="add" class="bg-slate-900">Add extra pages (+)</option>
-              <option value="total" class="bg-slate-900">Set total pages (=)</option>
-            </select>
-            <input
-              id="pagesInput"
-              type="number"
-              min="1"
-              max="850"
-              placeholder="e.g. 50"
-              class="w-24 bg-slate-900 text-white font-mono text-xs px-3 py-1.5 rounded-lg border border-slate-700/80 focus:border-indigo-500 focus:outline-none"
-            />
-          </div>
-
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-1.5 shrink-0">
           <button
-            id="applyPagesBtn"
+            id="openAddPagesBtn"
             type="button"
-            class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors cursor-pointer"
+            class="tap-scale px-2.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm flex items-center gap-1 cursor-pointer"
           >
-            Update Schedule
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            <span>Add Pages</span>
           </button>
 
           <button
-            id="trimExtraPagesBtn"
+            id="exportBtn"
             type="button"
-            class="hidden px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-colors cursor-pointer"
-            title="Revert syllabus back to 150 pages (B1–B15)"
+            class="tap-scale px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs font-medium cursor-pointer"
+            title="Export JSON Backup"
           >
-            Revert to 150 pp.
+            Export
           </button>
 
           <button
-            id="closeAddPagesBtn"
+            id="importBtn"
             type="button"
-            class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
-            aria-label="Close drawer"
+            class="tap-scale px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs font-medium cursor-pointer"
+            title="Import JSON Backup"
+          >
+            Import
+          </button>
+          <input id="importFileInput" type="file" accept="application/json,.json" class="hidden" />
+
+          <button
+            id="openResetBtn"
+            type="button"
+            class="tap-scale p-1.5 rounded-xl bg-slate-900 hover:bg-rose-950/50 text-slate-400 hover:text-rose-300 border border-slate-800 hover:border-rose-800/60 transition-colors cursor-pointer"
+            title="Reset All Progress"
+            aria-label="Reset All Progress"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
             </svg>
           </button>
+        </div>
+      </div>
+
+      <!-- Row 2: Compact Progress Pills -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/25 text-[11px] font-mono text-indigo-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+          <span class="text-slate-400">Pages:</span>
+          <strong id="pillPages" class="text-white font-semibold">0/150 pp.</strong>
+        </div>
+
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[11px] font-mono text-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span class="text-slate-400">Tasks Done:</span>
+          <strong id="pillTasks" class="text-white font-semibold">0% (0/60)</strong>
+        </div>
+
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-300">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+          <span id="pillExam">Exam Jan 21 · 56d</span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Main Workspace -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+  <!-- ===================================================================== -->
+  <!-- MAIN WORKSPACE: CALENDAR FIRST + FOCUSED SELECTED DAY CARD            -->
+  <!-- ===================================================================== -->
+  <main class="max-w-4xl mx-auto px-3.5 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-5">
 
-    <!-- Top Live Stats Dashboard (6 Cards) -->
-    <section aria-label="Study Progress Metrics" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-      <!-- Stat 1: Pages Encoded -->
-      <div class="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-3.5 shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-xs font-medium text-slate-400">Pages Encoded</span>
-          <span class="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-indigo-500/15 text-indigo-300 border border-indigo-500/25">
-            Day 1
-          </span>
+    <!-- 1. INTERACTIVE MONTHLY CALENDAR CARD -->
+    <section aria-label="Study Calendar" class="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-3.5 sm:p-5 shadow-lg space-y-3.5">
+
+      <!-- Calendar Top Bar: Month Tabs, Prev/Next Arrows, Quick Jump Pills -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <!-- Month Tabs + Arrows -->
+        <div class="flex items-center justify-between sm:justify-start gap-1.5">
+          <button
+            id="prevMonthBtn"
+            type="button"
+            class="tap-scale p-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 cursor-pointer"
+            aria-label="Previous Month"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          <div id="monthTabsContainer" class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 overflow-x-auto">
+            <!-- Dynamically populated month pills: Nov 2026, Dec 2026, Jan 2027 (+ Feb if needed) -->
+          </div>
+
+          <button
+            id="nextMonthBtn"
+            type="button"
+            class="tap-scale p-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 cursor-pointer"
+            aria-label="Next Month"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
         </div>
-        <div class="mt-2.5 flex items-baseline gap-1">
-          <span id="statPages" class="text-xl font-bold font-mono text-white">10</span>
-          <span id="statPagesTotal" class="text-xs font-mono text-slate-400">/ 150 pp.</span>
-        </div>
-        <div class="mt-2.5 w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-          <div id="barPages" class="bg-indigo-500 h-1.5 rounded-full transition-all duration-300" style="width: 6.6%"></div>
+
+        <!-- Quick Jump Pills -->
+        <div class="flex items-center gap-1.5 self-start sm:self-auto">
+          <button
+            id="jumpStartBtn"
+            type="button"
+            class="tap-scale px-2.5 py-1.5 rounded-xl bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 text-[11px] font-semibold cursor-pointer"
+          >
+            Start &middot; Nov 30
+          </button>
+          <button
+            id="jumpTodayBtn"
+            type="button"
+            class="tap-scale px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-semibold cursor-pointer"
+          >
+            Today
+          </button>
+          <button
+            id="jumpExamBtn"
+            type="button"
+            class="tap-scale px-2.5 py-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-[11px] font-semibold cursor-pointer"
+          >
+            Exam &middot; Jan 21
+          </button>
         </div>
       </div>
 
-      <!-- Stat 2: Overall Tasks -->
-      <div class="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-3.5 shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-xs font-medium text-slate-400">Overall Tasks</span>
-          <span id="statTasksCount" class="text-[11px] font-mono text-slate-400">1 / 60</span>
-        </div>
-        <div class="mt-2.5 flex items-baseline gap-1.5">
-          <span id="statTasksPct" class="text-xl font-bold font-mono text-white">2%</span>
-          <span class="text-xs text-slate-400">done</span>
-        </div>
-        <div class="mt-2.5 w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-          <div id="barTasks" class="bg-white h-1.5 rounded-full transition-all duration-300" style="width: 2%"></div>
-        </div>
+      <!-- Monday-First Weekday Headers -->
+      <div class="grid grid-cols-7 gap-1 sm:gap-1.5 text-center pt-1">
+        <div class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">Mon</div>
+        <div class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">Tue</div>
+        <div class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">Wed</div>
+        <div class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">Thu</div>
+        <div class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">Fri</div>
+        <div class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-500">Sat</div>
+        <div class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-500">Sun</div>
       </div>
 
-      <!-- Stat 3: Day 3 Reviews -->
-      <div class="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-3.5 shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-xs font-medium text-slate-400">Day 3 Reviews</span>
-          <span class="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-amber-500/15 text-amber-300 border border-amber-500/25">
-            +2d
-          </span>
-        </div>
-        <div class="mt-2.5 flex items-baseline gap-1">
-          <span id="statDay3" class="text-xl font-bold font-mono text-white">0</span>
-          <span id="statDay3Total" class="text-xs font-mono text-slate-400">/ 15</span>
-        </div>
-        <div class="mt-2.5 w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-          <div id="barDay3" class="bg-amber-400 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
+      <!-- 7-Column Calendar Day Grid -->
+      <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-1.5" role="grid" aria-label="Monthly Study Days">
+        <!-- Dynamically rendered calendar cells -->
       </div>
 
-      <!-- Stat 4: Day 7 Reviews -->
-      <div class="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-3.5 shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-xs font-medium text-slate-400">Day 7 Reviews</span>
-          <span class="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-cyan-500/15 text-cyan-300 border border-cyan-500/25">
-            +6d
-          </span>
+      <!-- Compact Stage Dot Legend -->
+      <div class="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
+        <div class="flex flex-wrap items-center gap-x-3.5 gap-y-1">
+          <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-indigo-400"></span>Day 1 (Encode)</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-400"></span>Day 3 (+2d)</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-cyan-400"></span>Day 7 (+6d)</span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-violet-400"></span>Day 18 (+17d)</span>
         </div>
-        <div class="mt-2.5 flex items-baseline gap-1">
-          <span id="statDay7" class="text-xl font-bold font-mono text-white">0</span>
-          <span id="statDay7Total" class="text-xs font-mono text-slate-400">/ 15</span>
-        </div>
-        <div class="mt-2.5 w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-          <div id="barDay7" class="bg-cyan-400 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <!-- Stat 5: Day 18 Reviews -->
-      <div class="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-3.5 shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-xs font-medium text-slate-400">Day 18 Reviews</span>
-          <span class="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-violet-500/15 text-violet-300 border border-violet-500/25">
-            +17d
-          </span>
-        </div>
-        <div class="mt-2.5 flex items-baseline gap-1">
-          <span id="statDay18" class="text-xl font-bold font-mono text-white">0</span>
-          <span id="statDay18Total" class="text-xs font-mono text-slate-400">/ 15</span>
-        </div>
-        <div class="mt-2.5 w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-          <div id="barDay18" class="bg-violet-400 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <!-- Stat 6: Days Remaining Until Exam -->
-      <div class="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-3.5 shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between gap-1.5">
-          <span class="text-xs font-medium text-slate-400">Until Exam</span>
-          <span class="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
-            Jan 21
-          </span>
-        </div>
-        <div class="mt-2.5 flex items-baseline gap-1">
-          <span id="statDaysLeft" class="text-xl font-bold font-mono text-emerald-300">58</span>
-          <span class="text-xs text-slate-400">days left</span>
-        </div>
-        <div class="mt-2.5 w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-          <div id="barExamProgress" class="bg-emerald-400 h-1.5 rounded-full transition-all duration-300" style="width: 10%"></div>
-        </div>
+        <span class="text-slate-500 hidden sm:inline">Tap any date to view &amp; check assignments</span>
       </div>
     </section>
 
-    <!-- Filter Controls & Box Legend -->
-    <section class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3.5 sm:p-4 space-y-3">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <!-- Filter Buttons -->
-        <div class="flex flex-wrap items-center gap-1.5 bg-slate-950/90 p-1 rounded-xl border border-slate-800 self-start">
+    <!-- 2. SELECTED DAY ASSIGNMENT CARD (SINGLE UNIFIED CHECKLIST BOX) -->
+    <section aria-label="Selected Day Assignments" class="bg-slate-900/95 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+
+      <!-- Selected Day Header with Prev / Next Day Navigation -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-800/80">
+        <div class="space-y-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 id="selectedDayHeading" class="text-base sm:text-lg font-bold text-white tracking-tight">
+              Monday, Nov 30 &middot; Study Day 1
+            </h2>
+            <span id="selectedDayStatusBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-slate-800 text-slate-300">
+              0 / 1 done
+            </span>
+          </div>
+          <p id="selectedDaySubheading" class="text-xs text-slate-400">
+            10 pages new encoding &bull; Foundation block B1
+          </p>
+        </div>
+
+        <!-- Prev Day / Next Day Controls -->
+        <div class="flex items-center gap-2 self-start sm:self-auto">
           <button
+            id="prevDayBtn"
             type="button"
-            data-filter="all"
-            class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-indigo-600 text-white shadow-sm cursor-pointer"
+            class="tap-scale px-3 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-medium flex items-center gap-1 cursor-pointer"
           >
-            All Days <span id="countAll" class="ml-1 opacity-80 font-mono">(32)</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+            <span>Prev Day</span>
           </button>
+
           <button
+            id="nextDayBtn"
             type="button"
-            data-filter="upcoming"
-            class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 cursor-pointer"
+            class="tap-scale px-3 py-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-medium flex items-center gap-1 cursor-pointer"
           >
-            Today &amp; Upcoming <span id="countUpcoming" class="ml-1 opacity-80 font-mono">(29)</span>
+            <span>Next Day</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
           </button>
+        </div>
+      </div>
+
+      <!-- Peak Load Tip Banner (automatically appears when a day has Day 1 + Day 3 + Day 7 together) -->
+      <div id="peakLoadBanner" class="hidden px-3.5 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start sm:items-center gap-2.5 text-xs text-amber-200">
+        <svg class="w-4 h-4 text-amber-400 shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>
+          <strong class="text-amber-300 font-semibold">High-Density Day:</strong> Cap spaced reviews at ~45 mins total—test definitions/theorems closed-book &amp; re-do ★ exercises rather than re-reading notes.
+        </span>
+      </div>
+
+      <!-- Exam Day Banner (shown on Jan 21, 2027) -->
+      <div id="examDayBanner" class="hidden px-4 py-3 rounded-xl bg-rose-500/15 border border-rose-500/35 flex items-center gap-3 text-xs sm:text-sm text-rose-100">
+        <span class="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 flex items-center justify-center font-bold shrink-0">
+          ★
+        </span>
+        <div>
+          <div class="font-bold text-white">Linear Algebra &amp; Geometry Exam Day — Thursday, Jan 21, 2027</div>
+          <div class="text-xs text-rose-200/80 mt-0.5">All 1–3–7–18 spaced repetition cycles lead up to today. Trust your preparation!</div>
+        </div>
+      </div>
+
+      <!-- SINGLE UNIFIED CHECKLIST BOX -->
+      <div class="rounded-2xl bg-slate-950/80 border border-slate-800/90 p-3 sm:p-4 space-y-2.5">
+        <div class="flex items-center justify-between px-1">
+          <span class="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">
+            Today's Unified Checklist
+          </span>
+          <span id="unifiedBoxCountLabel" class="text-[11px] font-mono text-slate-500">
+            1 assignment
+          </span>
+        </div>
+
+        <!-- Unified Task List Container -->
+        <div id="unifiedChecklist" class="space-y-2">
+          <!-- Rendered unified checklist rows -->
+        </div>
+
+        <!-- Empty Day Placeholder -->
+        <div id="emptyDayMessage" class="hidden py-6 px-4 text-center space-y-1">
+          <p class="text-sm font-medium text-slate-300">No scheduled blocks or reviews on this date</p>
+          <p class="text-xs text-slate-500">Use the composer below to log a custom study topic or note for this day.</p>
+        </div>
+      </div>
+
+      <!-- ADD STUDY ITEM COMPOSER BAR (WITH DAY 1 -> DAY 3, 7 & 18 AUTO-COMPILE TOGGLE) -->
+      <form id="addStudyItemForm" class="rounded-2xl bg-slate-950/70 border border-slate-800 p-3 sm:p-3.5 space-y-3">
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input
+            id="studyItemInput"
+            type="text"
+            autocomplete="off"
+            placeholder="Add topic, proof, or ★ exercise studied today..."
+            class="flex-1 min-w-0 bg-slate-900 hover:bg-slate-850 focus:bg-slate-900 text-xs sm:text-sm text-white placeholder-slate-500 px-3.5 py-2.5 rounded-xl border border-slate-700/80 focus:border-indigo-500 focus:outline-none transition-colors"
+          />
           <button
-            type="button"
-            data-filter="incomplete"
-            class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 cursor-pointer"
+            type="submit"
+            class="tap-scale px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold shadow-sm shrink-0 cursor-pointer flex items-center justify-center gap-1.5"
           >
-            Incomplete <span id="countIncomplete" class="ml-1 opacity-80 font-mono">(31)</span>
-          </button>
-          <button
-            type="button"
-            data-filter="completed"
-            class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-slate-200 cursor-pointer"
-          >
-            Completed <span id="countCompleted" class="ml-1 opacity-80 font-mono">(1)</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            <span>Add Item</span>
           </button>
         </div>
 
-        <!-- Jump to Today Button -->
+        <!-- Auto-Compile Toggle Pill + Dynamic Target Date Preview -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-0.5">
+          <button
+            id="autoCompileToggleBtn"
+            type="button"
+            role="switch"
+            aria-checked="true"
+            class="tap-scale inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/40 text-indigo-200 text-xs font-medium self-start cursor-pointer"
+          >
+            <span id="toggleTrack" class="w-7 h-4 rounded-full bg-indigo-500 relative transition-colors flex items-center px-0.5">
+              <span id="toggleThumb" class="w-3 h-3 rounded-full bg-white shadow transform translate-x-3 transition-transform"></span>
+            </span>
+            <span>Auto-compile to Day 3, 7 &amp; 18</span>
+          </button>
+
+          <span id="autoCompilePreviewText" class="text-[11px] font-mono text-slate-400">
+            Target reviews: Dec 2 (D3) &bull; Dec 6 (D7) &bull; Dec 17 (D18)
+          </span>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL 1: NON-DESTRUCTIVE "+ ADD PAGES" EXPANSION                      -->
+  <!-- ===================================================================== -->
+  <div id="addPagesModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+            NON-DESTRUCTIVE
+          </span>
+          <h2 class="text-base font-bold text-white mt-1.5">Expand Course Syllabus Pages</h2>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            Add pages for Topics 6 &amp; 7 once your lectures wrap up. New 10-page blocks append after <strong id="modalLastBlockLabel" class="text-slate-200 font-mono">B15</strong> and auto-schedule their Day 1, 3, 7 &amp; 18 tasks without erasing any checked items.
+          </p>
+        </div>
         <button
-          id="jumpTodayBtn"
+          id="closeAddPagesModalBtn"
           type="button"
-          class="self-start md:self-auto px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/80 text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer"
+          class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
+          aria-label="Close modal"
         >
-          <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
-          <span id="jumpTodayLabel">Jump to Today</span>
         </button>
       </div>
 
-      <!-- Visual Legend -->
-      <div class="pt-2 border-t border-slate-800/70 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs text-slate-400">
-        <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-indigo-500"></span>
-          <span><strong class="text-slate-300">Day 1 Box:</strong> New 10-page block + ★ notes</span>
+      <form id="addPagesForm" class="space-y-3.5">
+        <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-slate-950 border border-slate-800">
+          <button
+            type="button"
+            data-page-mode="add"
+            class="page-mode-btn py-2 px-3 rounded-lg text-xs font-semibold bg-indigo-600 text-white cursor-pointer"
+          >
+            Add Extra (+ pp.)
+          </button>
+          <button
+            type="button"
+            data-page-mode="total"
+            class="page-mode-btn py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 cursor-pointer"
+          >
+            Set Total (= pp.)
+          </button>
         </div>
-        <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-amber-400"></span>
-          <span><strong class="text-slate-300">Day 3 Box:</strong> Auto-syncs items to Day 7 (+4d) &amp; Day 18 (+15d)</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-cyan-400"></span>
-          <span><strong class="text-slate-300">Day 7 Box:</strong> Deep proofs &amp; auto-cascaded items</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-sm bg-violet-400"></span>
-          <span><strong class="text-slate-300">Day 18 Box:</strong> Cross-topic synthesis &amp; auto-cascaded items</span>
-        </div>
-      </div>
-    </section>
 
-    <!-- Day Cards Container -->
-    <section id="daysContainer" class="space-y-4" aria-label="Daily Spaced Repetition Schedule">
-      <!-- Dynamically rendered day cards -->
-    </section>
+        <div>
+          <label id="pagesInputLabel" for="pagesNumberInput" class="block text-xs font-medium text-slate-300 mb-1.5">
+            Extra pages to append (current: 150 pp.)
+          </label>
+          <input
+            id="pagesNumberInput"
+            type="number"
+            min="1"
+            max="850"
+            placeholder="e.g. 50"
+            class="w-full bg-slate-950 text-white font-mono text-sm px-3.5 py-2.5 rounded-xl border border-slate-700 focus:border-indigo-500 focus:outline-none"
+          />
+        </div>
 
-    <!-- Empty Filter State -->
-    <div id="emptyState" class="hidden bg-slate-900/60 border border-slate-800 rounded-2xl p-10 text-center">
-      <div class="w-12 h-12 rounded-2xl bg-slate-800/80 text-slate-400 flex items-center justify-center mx-auto mb-3">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </div>
-      <h3 class="text-sm font-semibold text-slate-200">No days match this filter</h3>
-      <p class="text-xs text-slate-400 mt-1">Switch back to "All Days" to view your complete spaced repetition calendar.</p>
+        <div class="flex items-center justify-between gap-2 pt-1">
+          <button
+            id="revertPagesBtn"
+            type="button"
+            class="hidden px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium cursor-pointer"
+          >
+            Revert to 150 pp.
+          </button>
+          <div class="flex items-center gap-2 ml-auto">
+            <button
+              id="cancelAddPagesBtn"
+              type="button"
+              class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold cursor-pointer"
+            >
+              Apply Pages
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <!-- Footer -->
-    <footer class="pt-2 pb-8 text-center text-xs text-slate-500">
-      All checkboxes, encoding notes, added pages, and auto-cascaded Day 3 → Day 7 &amp; Day 18 items save automatically in your browser.
-    </footer>
-  </main>
-
-  <!-- Custom Reset Confirmation Modal -->
+  <!-- ===================================================================== -->
+  <!-- MODAL 2: RESET CONFIRMATION                                           -->
+  <!-- ===================================================================== -->
   <div id="resetModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4">
       <div class="flex items-start gap-3">
         <div class="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center shrink-0">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -419,131 +500,123 @@
           </svg>
         </div>
         <div>
-          <h2 class="text-base font-semibold text-white">Reset Tracker to Day 1 Defaults?</h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
-            This will reset the syllabus back to 150 pages, clear all custom Day 3/7/18 review items and notes, and keep only <strong class="text-slate-200">Nov 21 (Encode B1 · pp. 1–10)</strong> checked.
+          <h2 class="text-base font-bold text-white">Reset All Progress?</h2>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            This will reset the syllabus to 150 pages (Blocks B1–B15 starting Monday, Nov 30), uncheck all boxes, and delete custom study items.
           </p>
         </div>
       </div>
-      <div class="flex items-center justify-end gap-2.5 pt-2">
+      <div class="flex items-center justify-end gap-2 pt-1">
         <button
           id="cancelResetBtn"
           type="button"
-          class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors cursor-pointer"
+          class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium cursor-pointer"
         >
           Cancel
         </button>
         <button
           id="confirmResetBtn"
           type="button"
-          class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold transition-colors cursor-pointer"
+          class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold cursor-pointer"
         >
-          Yes, Reset Everything
+          Reset Everything
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 right-5 z-40 translate-y-16 opacity-0 pointer-events-none transition-all duration-300 bg-slate-800 border border-slate-700 text-slate-100 text-xs font-medium px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 max-w-sm">
+  <!-- ===================================================================== -->
+  <!-- TOAST NOTIFICATION                                                    -->
+  <!-- ===================================================================== -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 translate-y-16 opacity-0 pointer-events-none transition-all duration-300 bg-slate-800 border border-slate-700 text-slate-100 text-xs font-medium px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 max-w-[92vw] whitespace-nowrap">
     <span class="w-2 h-2 rounded-full bg-indigo-400 shrink-0"></span>
-    <span id="toastMessage">Saved</span>
+    <span id="toastText" class="truncate">Saved</span>
   </div>
 
   <script>
     /**
      * ============================================================================
-     * LINEAR ALGEBRA & GEOMETRY SPACED REPETITION TRACKER (1–3–7–18 SCHEDULE)
+     * LINEAR ALGEBRA & GEOMETRY SPACED REPETITION CALENDAR TRACKER
      * ============================================================================
-     * Anchor Start Date : Saturday, November 21, 2026 (Day 1 = offset 0)
-     * Exam Date         : Thursday, January 21, 2027
-     * Storage Key       : 'linalg_sr_tracker_v3'
+     * Timeline Anchors:
+     *   - Start Date : Monday, November 30, 2026 ('2026-11-30')
+     *   - Exam Date  : Thursday, January 21, 2027 ('2027-01-21')
+     *   - Spacing    : Day 1 (D + 0), Day 3 (D + 2), Day 7 (D + 6), Day 18 (D + 17)
      */
 
-    const START_YEAR = 2026;
-    const START_MONTH = 10; // November (0-indexed)
-    const START_DAY = 21;
-
-    const EXAM_YEAR = 2027;
-    const EXAM_MONTH = 0;   // January (0-indexed)
-    const EXAM_DAY = 21;
-
-    const BASE_PAGES = 150;
+    const START_DATE_ISO = '2026-11-30';
+    const EXAM_DATE_ISO  = '2027-01-21';
+    const INITIAL_PAGES  = 150;
     const PAGES_PER_BLOCK = 10;
-    const STORAGE_KEY = 'linalg_sr_tracker_v3';
+    const STORAGE_KEY    = 'linalg_calendar_tracker_v1';
 
-    const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const WEEKDAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-    /**
-     * Create clean default state with Block B1 (pp. 1–10 on Nov 21) pre-checked
-     */
-    function createDefaultState() {
-      return {
-        version: 3,
-        totalPages: BASE_PAGES,
-        completedTasks: {
-          'B1_new': true
-        },
-        blockNotes: {},        // { 'B1': 'Starred guide Qs...', ... }
-        day3Items: [],         // [{ id, sourceIso, text }] -> auto-cascades to +4d (Day 7) and +15d (Day 18)
-        day7Standalone: [],    // [{ id, dateIso, text }]
-        day18Standalone: [],   // [{ id, dateIso, text }]
-        filter: 'all'
-      };
-    }
-
-    let state = createDefaultState();
+    const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const FULL_WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     /**
-     * Date Utility Functions (Timezone-safe UTC calendar math)
+     * Persistent Application State
      */
-    function addDaysFromStart(offsetDays) {
-      return new Date(Date.UTC(START_YEAR, START_MONTH, START_DAY + offsetDays));
-    }
+    let appState = {
+      totalPages: INITIAL_PAGES,
+      completedMap: {},     // { [taskId]: true }
+      customCascades: [],   // [{ id, day1Iso, text }]
+      singleTasks: []       // [{ id, dateIso, text }]
+    };
 
-    function parseIsoToUtc(isoStr) {
+    /**
+     * Ephemeral UI State
+     */
+    let selectedDateIso = START_DATE_ISO;
+    let activeMonthKey  = '2026-11';
+    let autoCompileOn   = true;
+    let pageModalMode   = 'add'; // 'add' | 'total'
+
+    /**
+     * ============================================================================
+     * DATE & CALENDAR UTILITIES (UTC-SAFE ARITHMETIC)
+     * ============================================================================
+     */
+    function parseIsoUtc(isoStr) {
       const [y, m, d] = isoStr.split('-').map(Number);
       return new Date(Date.UTC(y, m - 1, d));
     }
 
-    function addDaysToIso(isoStr, deltaDays) {
-      const dt = parseIsoToUtc(isoStr);
-      dt.setUTCDate(dt.getUTCDate() + deltaDays);
-      return formatIso(dt);
-    }
-
-    function getDayOffsetFromStart(isoStr) {
-      const startUtc = Date.UTC(START_YEAR, START_MONTH, START_DAY);
-      const targetUtc = parseIsoToUtc(isoStr).getTime();
-      return Math.round((targetUtc - startUtc) / 86400000);
-    }
-
-    function formatIso(utcDate) {
+    function formatIsoUtc(utcDate) {
       const y = utcDate.getUTCFullYear();
       const m = String(utcDate.getUTCMonth() + 1).padStart(2, '0');
       const d = String(utcDate.getUTCDate()).padStart(2, '0');
       return `${y}-${m}-${d}`;
     }
 
-    function formatMonthDay(utcDate) {
-      return `${MONTH_NAMES[utcDate.getUTCMonth()]} ${utcDate.getUTCDate()}`;
+    function addDaysIso(isoStr, deltaDays) {
+      const dt = parseIsoUtc(isoStr);
+      dt.setUTCDate(dt.getUTCDate() + deltaDays);
+      return formatIsoUtc(dt);
     }
 
-    function formatMonthDayFromIso(isoStr) {
-      return formatMonthDay(parseIsoToUtc(isoStr));
+    function diffDaysIso(isoA, isoB) {
+      const msA = parseIsoUtc(isoA).getTime();
+      const msB = parseIsoUtc(isoB).getTime();
+      return Math.round((msA - msB) / 86400000);
     }
 
-    function getRealTodayIso() {
+    function formatShortDate(isoStr) {
+      const dt = parseIsoUtc(isoStr);
+      return `${SHORT_MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}`;
+    }
+
+    function formatReadableDate(isoStr) {
+      const dt = parseIsoUtc(isoStr);
+      const weekday = FULL_WEEKDAYS[dt.getUTCDay()];
+      return `${weekday}, ${SHORT_MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}`;
+    }
+
+    function getLocalTodayIso() {
       const now = new Date();
       const y = now.getFullYear();
       const m = String(now.getMonth() + 1).padStart(2, '0');
       const d = String(now.getDate()).padStart(2, '0');
       return `${y}-${m}-${d}`;
-    }
-
-    function generateUid(prefix) {
-      return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
     }
 
     function escapeHtml(str) {
@@ -555,1089 +628,947 @@
         .replace(/'/g, '&#39;');
     }
 
-    /**
-     * Build the complete schedule dynamically from state.totalPages + custom Day 3/7/18 items.
-     * Guarantees:
-     *  - Block Bk encoded on Day offset (k-1) -> Day 3 on (k-1)+2, Day 7 on (k-1)+6, Day 18 on (k-1)+17
-     *  - Every Day 3 custom item on date D cascades automatically to D+4 (Day 7) and D+15 (Day 18)
-     */
-    function buildSchedule() {
-      const numBlocks = Math.ceil(state.totalPages / PAGES_PER_BLOCK);
-      const blocks = [];
-
-      for (let i = 0; i < numBlocks; i++) {
-        const blockNum = i + 1;
-        const startPage = i * PAGES_PER_BLOCK + 1;
-        const endPage = Math.min(blockNum * PAGES_PER_BLOCK, state.totalPages);
-        const pageCount = endPage - startPage + 1;
-        const isExtra = blockNum > 15;
-
-        blocks.push({
-          blockNum,
-          blockId: `B${blockNum}`,
-          startPage,
-          endPage,
-          pageCount,
-          isExtra,
-          encodeOffset: i,
-          day3Offset: i + 2,
-          day7Offset: i + 6,
-          day18Offset: i + 17
-        });
-      }
-
-      // Determine the furthest date offset needed across all blocks and custom items
-      let maxOffset = numBlocks > 0 ? (numBlocks - 1) + 17 : 0;
-
-      state.day3Items.forEach(item => {
-        const srcOffset = getDayOffsetFromStart(item.sourceIso);
-        if (srcOffset + 15 > maxOffset) maxOffset = srcOffset + 15;
-      });
-      state.day7Standalone.forEach(item => {
-        const off = getDayOffsetFromStart(item.dateIso);
-        if (off > maxOffset) maxOffset = off;
-      });
-      state.day18Standalone.forEach(item => {
-        const off = getDayOffsetFromStart(item.dateIso);
-        if (off > maxOffset) maxOffset = off;
-      });
-
-      const todayIso = getRealTodayIso();
-      const daysMap = new Map();
-
-      for (let offset = 0; offset <= maxOffset; offset++) {
-        const utcDate = addDaysFromStart(offset);
-        const iso = formatIso(utcDate);
-        daysMap.set(iso, {
-          dayOffset: offset,
-          dayNumber: offset + 1,
-          iso,
-          dateLabel: formatMonthDay(utcDate),
-          weekday: WEEKDAY_NAMES[utcDate.getUTCDay()],
-          isToday: iso === todayIso,
-          day1Block: null,
-          day3Block: null,
-          day7Block: null,
-          day18Block: null,
-          day3Custom: [],
-          day7Cascaded: [],
-          day7Custom: [],
-          day18Cascaded: [],
-          day18Custom: []
-        });
-      }
-
-      // 1. Assign Block tasks (Day 1, Day 3, Day 7, Day 18)
-      blocks.forEach(b => {
-        const d1Iso = formatIso(addDaysFromStart(b.encodeOffset));
-        const d3Iso = formatIso(addDaysFromStart(b.day3Offset));
-        const d7Iso = formatIso(addDaysFromStart(b.day7Offset));
-        const d18Iso = formatIso(addDaysFromStart(b.day18Offset));
-
-        if (daysMap.has(d1Iso)) daysMap.get(d1Iso).day1Block = b;
-        if (daysMap.has(d3Iso)) daysMap.get(d3Iso).day3Block = b;
-        if (daysMap.has(d7Iso)) daysMap.get(d7Iso).day7Block = b;
-        if (daysMap.has(d18Iso)) daysMap.get(d18Iso).day18Block = b;
-      });
-
-      // 2. Assign Day 3 items & auto-cascade each to Day + 4 (Day 7) and Day + 15 (Day 18)
-      state.day3Items.forEach(item => {
-        const sourceLabel = formatMonthDayFromIso(item.sourceIso);
-
-        // Source Day 3 Box
-        if (daysMap.has(item.sourceIso)) {
-          daysMap.get(item.sourceIso).day3Custom.push({
-            itemId: item.id,
-            taskId: `${item.id}_d3`,
-            text: item.text,
-            sourceIso: item.sourceIso
-          });
-        }
-
-        // Target Day 7 Box (sourceIso + 4 days)
-        const d7TargetIso = addDaysToIso(item.sourceIso, 4);
-        if (daysMap.has(d7TargetIso)) {
-          daysMap.get(d7TargetIso).day7Cascaded.push({
-            itemId: item.id,
-            taskId: `${item.id}_d7`,
-            text: item.text,
-            sourceIso: item.sourceIso,
-            sourceLabel
-          });
-        }
-
-        // Target Day 18 Box (sourceIso + 15 days)
-        const d18TargetIso = addDaysToIso(item.sourceIso, 15);
-        if (daysMap.has(d18TargetIso)) {
-          daysMap.get(d18TargetIso).day18Cascaded.push({
-            itemId: item.id,
-            taskId: `${item.id}_d18`,
-            text: item.text,
-            sourceIso: item.sourceIso,
-            sourceLabel
-          });
-        }
-      });
-
-      // 3. Assign Standalone Day 7 & Day 18 items
-      state.day7Standalone.forEach(item => {
-        if (daysMap.has(item.dateIso)) {
-          daysMap.get(item.dateIso).day7Custom.push({
-            itemId: item.id,
-            taskId: item.id,
-            text: item.text
-          });
-        }
-      });
-
-      state.day18Standalone.forEach(item => {
-        if (daysMap.has(item.dateIso)) {
-          daysMap.get(item.dateIso).day18Custom.push({
-            itemId: item.id,
-            taskId: item.id,
-            text: item.text
-          });
-        }
-      });
-
-      // 4. Compute per-day task counts and Peak Load flag
-      const days = Array.from(daysMap.values()).map(day => {
-        const allTaskIds = [];
-        if (day.day1Block) allTaskIds.push(`${day.day1Block.blockId}_new`);
-        if (day.day3Block) allTaskIds.push(`${day.day3Block.blockId}_d3`);
-        day.day3Custom.forEach(c => allTaskIds.push(c.taskId));
-        if (day.day7Block) allTaskIds.push(`${day.day7Block.blockId}_d7`);
-        day.day7Cascaded.forEach(c => allTaskIds.push(c.taskId));
-        day.day7Custom.forEach(c => allTaskIds.push(c.taskId));
-        if (day.day18Block) allTaskIds.push(`${day.day18Block.blockId}_d18`);
-        day.day18Cascaded.forEach(c => allTaskIds.push(c.taskId));
-        day.day18Custom.forEach(c => allTaskIds.push(c.taskId));
-
-        const doneCount = allTaskIds.filter(id => Boolean(state.completedTasks[id])).length;
-        const totalCount = allTaskIds.length;
-        const isPeak = Boolean(day.day1Block && day.day3Block && day.day7Block);
-
-        return {
-          ...day,
-          allTaskIds,
-          doneCount,
-          totalCount,
-          isPeak
-        };
-      });
-
-      return { blocks, days, todayIso };
+    function makeId(prefix) {
+      return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
     }
 
     /**
-     * Storage Persistence
+     * ============================================================================
+     * STORAGE PERSISTENCE
+     * ============================================================================
      */
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) {
-          state = createDefaultState();
-          saveState();
-          return;
-        }
+        if (!raw) return;
         const parsed = JSON.parse(raw);
-        state.totalPages = typeof parsed.totalPages === 'number' && parsed.totalPages >= BASE_PAGES
-          ? parsed.totalPages
-          : BASE_PAGES;
-        state.completedTasks = parsed.completedTasks && typeof parsed.completedTasks === 'object'
-          ? parsed.completedTasks
-          : { 'B1_new': true };
-        state.blockNotes = parsed.blockNotes && typeof parsed.blockNotes === 'object'
-          ? parsed.blockNotes
-          : {};
-        state.day3Items = Array.isArray(parsed.day3Items) ? parsed.day3Items : [];
-        state.day7Standalone = Array.isArray(parsed.day7Standalone) ? parsed.day7Standalone : [];
-        state.day18Standalone = Array.isArray(parsed.day18Standalone) ? parsed.day18Standalone : [];
-        state.filter = parsed.filter || 'all';
+        if (parsed && typeof parsed === 'object') {
+          appState.totalPages = typeof parsed.totalPages === 'number' && parsed.totalPages >= INITIAL_PAGES
+            ? parsed.totalPages
+            : INITIAL_PAGES;
+          appState.completedMap = parsed.completedMap && typeof parsed.completedMap === 'object'
+            ? parsed.completedMap
+            : {};
+          appState.customCascades = Array.isArray(parsed.customCascades) ? parsed.customCascades : [];
+          appState.singleTasks = Array.isArray(parsed.singleTasks) ? parsed.singleTasks : [];
+        }
       } catch (err) {
-        console.error('Error loading saved state:', err);
-        state = createDefaultState();
+        console.error('Failed to load saved tracker state:', err);
       }
     }
 
     function saveState() {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
       } catch (err) {
-        console.error('Error saving state:', err);
+        console.error('Failed to save tracker state:', err);
       }
     }
 
     /**
-     * Toast Feedback Helper
+     * ============================================================================
+     * SCHEDULE ENGINE: BUILDS ALL TASKS INDEXED BY ISO DATE
+     * ============================================================================
      */
-    let toastTimeout = null;
-    function showToast(msg) {
+    function buildScheduleIndex() {
+      const tasksByDate = new Map(); // iso -> Array<TaskObj>
+      const blockBadgeByDate = new Map(); // iso -> 'B1'
+      const numBlocks = Math.ceil(appState.totalPages / PAGES_PER_BLOCK);
+
+      let totalTaskCount = 0;
+      let completedTaskCount = 0;
+      let encodedPagesCount = 0;
+
+      function pushTask(dateIso, task) {
+        if (!tasksByDate.has(dateIso)) {
+          tasksByDate.set(dateIso, []);
+        }
+        tasksByDate.get(dateIso).push(task);
+        totalTaskCount++;
+        if (appState.completedMap[task.id]) {
+          completedTaskCount++;
+        }
+      }
+
+      // 1. Built-in 10-page Syllabus Blocks (B1 on 2026-11-30, B2 on 2026-12-01, ...)
+      for (let i = 0; i < numBlocks; i++) {
+        const blockNum = i + 1;
+        const startPage = i * PAGES_PER_BLOCK + 1;
+        const endPage = Math.min(blockNum * PAGES_PER_BLOCK, appState.totalPages);
+        const pageCount = endPage - startPage + 1;
+
+        const d1Iso  = addDaysIso(START_DATE_ISO, i);
+        const d3Iso  = addDaysIso(START_DATE_ISO, i + 2);
+        const d7Iso  = addDaysIso(START_DATE_ISO, i + 6);
+        const d18Iso = addDaysIso(START_DATE_ISO, i + 17);
+
+        blockBadgeByDate.set(d1Iso, `B${blockNum}`);
+
+        const d1TaskId = `B${blockNum}_d1`;
+        if (appState.completedMap[d1TaskId]) {
+          encodedPagesCount += pageCount;
+        }
+
+        // Day 1 (D + 0)
+        pushTask(d1Iso, {
+          id: d1TaskId,
+          stage: 'DAY 1',
+          stageOrder: 1,
+          color: 'indigo',
+          title: `Encode B${blockNum} · Pages ${startPage}–${endPage}`,
+          subtitle: `New encoding (${pageCount} pages) · Read, prove theorems & solve guide Qs`,
+          deletable: false
+        });
+
+        // Day 3 (D + 2)
+        pushTask(d3Iso, {
+          id: `B${blockNum}_d3`,
+          stage: 'DAY 3',
+          stageOrder: 2,
+          color: 'amber',
+          title: `Review B${blockNum} · Pages ${startPage}–${endPage} (Active Recall)`,
+          subtitle: `From ${formatShortDate(d1Iso)} · Closed-book definitions, theorems & ★ exercises`,
+          deletable: false
+        });
+
+        // Day 7 (D + 6)
+        pushTask(d7Iso, {
+          id: `B${blockNum}_d7`,
+          stage: 'DAY 7',
+          stageOrder: 3,
+          color: 'cyan',
+          title: `Deep Review B${blockNum} · Pages ${startPage}–${endPage} (Hard ★ Exercises)`,
+          subtitle: `From ${formatShortDate(d1Iso)} · Reconstruct full proofs & edge-case problems`,
+          deletable: false
+        });
+
+        // Day 18 (D + 17)
+        pushTask(d18Iso, {
+          id: `B${blockNum}_d18`,
+          stage: 'DAY 18',
+          stageOrder: 4,
+          color: 'violet',
+          title: `Synthesis B${blockNum} · Pages ${startPage}–${endPage} (Cross-Topic Check)`,
+          subtitle: `From ${formatShortDate(d1Iso)} · Rapid diagnostic & cross-chapter connections`,
+          deletable: false
+        });
+      }
+
+      // 2. User-Added Auto-Cascading Items (Day 1 -> Day 3 [+2d], Day 7 [+6d], Day 18 [+17d])
+      appState.customCascades.forEach(item => {
+        const d1Iso  = item.day1Iso;
+        const d3Iso  = addDaysIso(d1Iso, 2);
+        const d7Iso  = addDaysIso(d1Iso, 6);
+        const d18Iso = addDaysIso(d1Iso, 17);
+        const originLabel = formatShortDate(d1Iso);
+
+        pushTask(d1Iso, {
+          id: `${item.id}_d1`,
+          cascadeRootId: item.id,
+          stage: 'DAY 1',
+          stageOrder: 1,
+          color: 'indigo',
+          title: item.text,
+          subtitle: `Auto-compiled → ${formatShortDate(d3Iso)} (D3), ${formatShortDate(d7Iso)} (D7), ${formatShortDate(d18Iso)} (D18)`,
+          deletable: true,
+          deleteType: 'cascade'
+        });
+
+        pushTask(d3Iso, {
+          id: `${item.id}_d3`,
+          cascadeRootId: item.id,
+          stage: 'DAY 3',
+          stageOrder: 2,
+          color: 'amber',
+          title: item.text,
+          subtitle: `From ${originLabel} · Day 3 Active Recall`,
+          deletable: true,
+          deleteType: 'cascade'
+        });
+
+        pushTask(d7Iso, {
+          id: `${item.id}_d7`,
+          cascadeRootId: item.id,
+          stage: 'DAY 7',
+          stageOrder: 3,
+          color: 'cyan',
+          title: item.text,
+          subtitle: `From ${originLabel} · Day 7 Deep Review`,
+          deletable: true,
+          deleteType: 'cascade'
+        });
+
+        pushTask(d18Iso, {
+          id: `${item.id}_d18`,
+          cascadeRootId: item.id,
+          stage: 'DAY 18',
+          stageOrder: 4,
+          color: 'violet',
+          title: item.text,
+          subtitle: `From ${originLabel} · Day 18 Synthesis`,
+          deletable: true,
+          deleteType: 'cascade'
+        });
+      });
+
+      // 3. Single-Day Custom Tasks (Auto-compile toggled OFF)
+      appState.singleTasks.forEach(item => {
+        pushTask(item.dateIso, {
+          id: item.id,
+          singleId: item.id,
+          stage: 'NOTE',
+          stageOrder: 5,
+          color: 'emerald',
+          title: item.text,
+          subtitle: 'Single-day study note',
+          deletable: true,
+          deleteType: 'single'
+        });
+      });
+
+      // Sort each day's tasks in clean stage order: DAY 1 -> DAY 3 -> DAY 7 -> DAY 18 -> NOTE
+      tasksByDate.forEach(list => {
+        list.sort((a, b) => a.stageOrder - b.stageOrder);
+      });
+
+      return {
+        tasksByDate,
+        blockBadgeByDate,
+        numBlocks,
+        totalTaskCount,
+        completedTaskCount,
+        encodedPagesCount
+      };
+    }
+
+    /**
+     * ============================================================================
+     * DETERMINE AVAILABLE CALENDAR MONTHS (Always Nov 2026, Dec 2026, Jan 2027+)
+     * ============================================================================
+     */
+    function getAvailableMonths(tasksByDate) {
+      let maxMonthKey = '2027-01';
+      tasksByDate.forEach((_, iso) => {
+        const mk = iso.slice(0, 7);
+        if (mk > maxMonthKey) maxMonthKey = mk;
+      });
+
+      const months = [];
+      let y = 2026;
+      let m = 11; // November
+      while (true) {
+        const key = `${y}-${String(m).padStart(2, '0')}`;
+        months.push({
+          key,
+          year: y,
+          monthIndex: m - 1,
+          label: `${SHORT_MONTHS[m - 1]} ${y}`
+        });
+        if (key >= maxMonthKey) break;
+        m++;
+        if (m > 12) {
+          m = 1;
+          y++;
+        }
+      }
+      return months;
+    }
+
+    /**
+     * ============================================================================
+     * TOAST FEEDBACK HELPER
+     * ============================================================================
+     */
+    let toastTimer = null;
+    function showToast(message) {
       const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toastMessage');
-      toastMsg.textContent = msg;
+      const toastText = document.getElementById('toastText');
+      toastText.textContent = message;
       toast.classList.remove('translate-y-16', 'opacity-0');
       toast.classList.add('translate-y-0', 'opacity-100');
 
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
         toast.classList.add('translate-y-16', 'opacity-0');
         toast.classList.remove('translate-y-0', 'opacity-100');
-      }, 2800);
+      }, 3000);
     }
 
     /**
-     * Update Top Metrics & Filter Counters
+     * ============================================================================
+     * RENDER HEADER PROGRESS PILLS
+     * ============================================================================
      */
-    function updateDashboard(schedule) {
-      const { blocks, days, todayIso } = schedule;
+    function renderHeaderStats(schedule) {
+      const { totalTaskCount, completedTaskCount, encodedPagesCount, numBlocks } = schedule;
+      const pct = totalTaskCount > 0 ? Math.round((completedTaskCount / totalTaskCount) * 100) : 0;
 
-      let pagesEncoded = 0;
-      let d3Total = 0, d3Done = 0;
-      let d7Total = 0, d7Done = 0;
-      let d18Total = 0, d18Done = 0;
-      let overallTotal = 0, overallDone = 0;
+      document.getElementById('pillPages').textContent = `${encodedPagesCount}/${appState.totalPages} pp.`;
+      document.getElementById('pillTasks').textContent = `${pct}% (${completedTaskCount}/${totalTaskCount})`;
 
-      // Count Block-based tasks
-      blocks.forEach(b => {
-        overallTotal += 4;
-        if (state.completedTasks[`${b.blockId}_new`]) {
-          pagesEncoded += b.pageCount;
-          overallDone++;
-        }
+      const todayIso = getLocalTodayIso();
+      const daysUntilExam = diffDaysIso(EXAM_DATE_ISO, todayIso);
+      const examText = daysUntilExam > 0
+        ? `Exam Jan 21 · ${daysUntilExam}d left`
+        : daysUntilExam === 0
+          ? 'Exam Day · Jan 21!'
+          : 'Exam Completed · Jan 21';
+      document.getElementById('pillExam').textContent = examText;
 
-        d3Total++;
-        if (state.completedTasks[`${b.blockId}_d3`]) {
-          d3Done++;
-          overallDone++;
-        }
-
-        d7Total++;
-        if (state.completedTasks[`${b.blockId}_d7`]) {
-          d7Done++;
-          overallDone++;
-        }
-
-        d18Total++;
-        if (state.completedTasks[`${b.blockId}_d18`]) {
-          d18Done++;
-          overallDone++;
-        }
-      });
-
-      // Count Auto-Cascading Day 3 items across all 3 stages
-      state.day3Items.forEach(item => {
-        d3Total++;
-        overallTotal++;
-        if (state.completedTasks[`${item.id}_d3`]) {
-          d3Done++;
-          overallDone++;
-        }
-
-        d7Total++;
-        overallTotal++;
-        if (state.completedTasks[`${item.id}_d7`]) {
-          d7Done++;
-          overallDone++;
-        }
-
-        d18Total++;
-        overallTotal++;
-        if (state.completedTasks[`${item.id}_d18`]) {
-          d18Done++;
-          overallDone++;
-        }
-      });
-
-      // Count Standalone Day 7 & Day 18 items
-      state.day7Standalone.forEach(item => {
-        d7Total++;
-        overallTotal++;
-        if (state.completedTasks[item.id]) {
-          d7Done++;
-          overallDone++;
-        }
-      });
-
-      state.day18Standalone.forEach(item => {
-        d18Total++;
-        overallTotal++;
-        if (state.completedTasks[item.id]) {
-          d18Done++;
-          overallDone++;
-        }
-      });
-
-      // Exam Countdown (using real today date)
-      const examUtc = Date.UTC(EXAM_YEAR, EXAM_MONTH, EXAM_DAY);
-      const todayUtc = parseIsoToUtc(todayIso).getTime();
-      const startUtc = Date.UTC(START_YEAR, START_MONTH, START_DAY);
-      const daysLeft = Math.max(0, Math.round((examUtc - todayUtc) / 86400000));
-      const totalSpan = Math.max(1, Math.round((examUtc - startUtc) / 86400000));
-      const elapsedPct = Math.min(100, Math.max(0, Math.round(((todayUtc - startUtc) / 86400000 / totalSpan) * 100)));
-
-      document.getElementById('examCountdownText').textContent = `Exam: Jan 21, 2027 (${daysLeft}d left)`;
-      document.getElementById('statDaysLeft').textContent = daysLeft;
-      document.getElementById('barExamProgress').style.width = `${elapsedPct}%`;
-
-      document.getElementById('headerSyllabusBadge').textContent = `${state.totalPages} pp. (${blocks.length} Blocks)`;
-      document.getElementById('drawerLastBlockLabel').textContent = `B${blocks.length}`;
-
-      const trimBtn = document.getElementById('trimExtraPagesBtn');
-      if (state.totalPages > BASE_PAGES) {
-        trimBtn.classList.remove('hidden');
+      // Update Add Pages modal helpers
+      document.getElementById('modalLastBlockLabel').textContent = `B${numBlocks}`;
+      const revertBtn = document.getElementById('revertPagesBtn');
+      if (appState.totalPages > INITIAL_PAGES) {
+        revertBtn.classList.remove('hidden');
       } else {
-        trimBtn.classList.add('hidden');
+        revertBtn.classList.add('hidden');
+      }
+    }
+
+    /**
+     * ============================================================================
+     * RENDER MONTHLY CALENDAR GRID
+     * ============================================================================
+     */
+    function renderCalendar(schedule) {
+      const { tasksByDate, blockBadgeByDate } = schedule;
+      const months = getAvailableMonths(tasksByDate);
+
+      if (!months.some(m => m.key === activeMonthKey)) {
+        activeMonthKey = months[0].key;
       }
 
-      // Render progress bars
-      const pagesPct = Math.min(100, (pagesEncoded / state.totalPages) * 100);
-      document.getElementById('statPages').textContent = pagesEncoded;
-      document.getElementById('statPagesTotal').textContent = `/ ${state.totalPages} pp.`;
-      document.getElementById('barPages').style.width = `${pagesPct}%`;
+      // Render Month Tabs
+      const tabsContainer = document.getElementById('monthTabsContainer');
+      tabsContainer.innerHTML = months.map(m => {
+        const isActive = m.key === activeMonthKey;
+        return `
+          <button
+            type="button"
+            data-month-key="${m.key}"
+            class="month-tab-btn tap-scale px-2.5 sm:px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap cursor-pointer ${
+              isActive
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-slate-200'
+            }"
+          >
+            ${m.label}
+          </button>
+        `;
+      }).join('');
 
-      const overallPct = overallTotal > 0 ? Math.round((overallDone / overallTotal) * 100) : 0;
-      document.getElementById('statTasksCount').textContent = `${overallDone} / ${overallTotal}`;
-      document.getElementById('statTasksPct').textContent = `${overallPct}%`;
-      document.getElementById('barTasks').style.width = `${overallPct}%`;
+      // Update Prev/Next Month Button disabled state
+      const currentIdx = months.findIndex(m => m.key === activeMonthKey);
+      const prevMonthBtn = document.getElementById('prevMonthBtn');
+      const nextMonthBtn = document.getElementById('nextMonthBtn');
+      prevMonthBtn.disabled = currentIdx <= 0;
+      nextMonthBtn.disabled = currentIdx >= months.length - 1;
+      prevMonthBtn.classList.toggle('opacity-40', currentIdx <= 0);
+      nextMonthBtn.classList.toggle('opacity-40', currentIdx >= months.length - 1);
 
-      document.getElementById('statDay3').textContent = d3Done;
-      document.getElementById('statDay3Total').textContent = `/ ${d3Total}`;
-      document.getElementById('barDay3').style.width = `${d3Total > 0 ? (d3Done / d3Total) * 100 : 0}%`;
+      // Compute Monday-first grid cells for activeMonthKey
+      const [yearStr, monthStr] = activeMonthKey.split('-');
+      const year = Number(yearStr);
+      const monthIdx = Number(monthStr) - 1;
 
-      document.getElementById('statDay7').textContent = d7Done;
-      document.getElementById('statDay7Total').textContent = `/ ${d7Total}`;
-      document.getElementById('barDay7').style.width = `${d7Total > 0 ? (d7Done / d7Total) * 100 : 0}%`;
+      const firstOfMonth = new Date(Date.UTC(year, monthIdx, 1));
+      const daysInMonth = new Date(Date.UTC(year, monthIdx + 1, 0)).getUTCDate();
 
-      document.getElementById('statDay18').textContent = d18Done;
-      document.getElementById('statDay18Total').textContent = `/ ${d18Total}`;
-      document.getElementById('barDay18').style.width = `${d18Total > 0 ? (d18Done / d18Total) * 100 : 0}%`;
+      // Convert Sunday=0..Saturday=6 into Monday=0..Sunday=6
+      const startWeekdayMon = (firstOfMonth.getUTCDay() + 6) % 7;
+      const totalCells = Math.ceil((startWeekdayMon + daysInMonth) / 7) * 7;
 
-      // Filter Counts
-      const upcomingCount = days.filter(d => d.iso >= todayIso).length;
-      const completedCount = days.filter(d => d.totalCount > 0 && d.doneCount === d.totalCount).length;
-      const incompleteCount = days.filter(d => d.doneCount < d.totalCount).length;
+      const todayIso = getLocalTodayIso();
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = '';
 
-      document.getElementById('countAll').textContent = `(${days.length})`;
-      document.getElementById('countUpcoming').textContent = `(${upcomingCount})`;
-      document.getElementById('countIncomplete').textContent = `(${incompleteCount})`;
-      document.getElementById('countCompleted').textContent = `(${completedCount})`;
+      for (let cellIdx = 0; cellIdx < totalCells; cellIdx++) {
+        const dayOffsetFromFirst = cellIdx - startWeekdayMon;
+        const cellDate = new Date(Date.UTC(year, monthIdx, 1 + dayOffsetFromFirst));
+        const iso = formatIsoUtc(cellDate);
+        const dayNum = cellDate.getUTCDate();
+        const inCurrentMonth = cellDate.getUTCMonth() === monthIdx;
 
-      // Update Jump to Today button label
-      const todayDayObj = days.find(d => d.isToday);
-      document.getElementById('jumpTodayLabel').textContent = todayDayObj
-        ? `Jump to Today (${todayDayObj.dateLabel})`
-        : 'Jump to Today';
-    }
+        const tasks = tasksByDate.get(iso) || [];
+        const total = tasks.length;
+        const done = tasks.filter(t => Boolean(appState.completedMap[t.id])).length;
+        const isAllDone = total > 0 && done === total;
+        const isSelected = iso === selectedDateIso;
+        const isToday = iso === todayIso;
+        const isExam = iso === EXAM_DATE_ISO;
+        const blockLabel = blockBadgeByDate.get(iso) || '';
 
-    /**
-     * Render a styled checkbox row helper
-     */
-    function renderCheckboxRow({ taskId, labelHtml, sublabelHtml = '', accentColor, deleteAction = null }) {
-      const isChecked = Boolean(state.completedTasks[taskId]);
+        // Stage dots present on this day
+        const stagesPresent = new Set(tasks.map(t => t.color));
+        const dotHtml = ['indigo', 'amber', 'cyan', 'violet', 'emerald']
+          .filter(c => stagesPresent.has(c))
+          .map(c => {
+            const dotColors = {
+              indigo: 'bg-indigo-400',
+              amber: 'bg-amber-400',
+              cyan: 'bg-cyan-400',
+              violet: 'bg-violet-400',
+              emerald: 'bg-emerald-400'
+            };
+            return `<span class="w-1.5 h-1.5 rounded-full ${dotColors[c]}"></span>`;
+          })
+          .join('');
 
-      const accentMap = {
-        indigo: {
-          box: isChecked ? 'bg-indigo-600 border-indigo-500 text-white' : 'border-slate-600 hover:border-indigo-400 bg-slate-950/70',
-          row: isChecked ? 'bg-indigo-950/30 border-indigo-500/25' : 'bg-slate-950/60 border-slate-800/80 hover:border-indigo-500/40'
-        },
-        amber: {
-          box: isChecked ? 'bg-amber-500 border-amber-400 text-slate-950' : 'border-slate-600 hover:border-amber-400 bg-slate-950/70',
-          row: isChecked ? 'bg-amber-950/25 border-amber-500/25' : 'bg-slate-950/60 border-slate-800/80 hover:border-amber-500/40'
-        },
-        cyan: {
-          box: isChecked ? 'bg-cyan-500 border-cyan-400 text-slate-950' : 'border-slate-600 hover:border-cyan-400 bg-slate-950/70',
-          row: isChecked ? 'bg-cyan-950/25 border-cyan-500/25' : 'bg-slate-950/60 border-slate-800/80 hover:border-cyan-500/40'
-        },
-        violet: {
-          box: isChecked ? 'bg-violet-500 border-violet-400 text-slate-950' : 'border-slate-600 hover:border-violet-400 bg-slate-950/70',
-          row: isChecked ? 'bg-violet-950/25 border-violet-500/25' : 'bg-slate-950/60 border-slate-800/80 hover:border-violet-500/40'
+        // Cell Surface Styling
+        let cellClasses = 'bg-slate-950/75 border-slate-800/80 hover:border-slate-700';
+        if (!inCurrentMonth) {
+          cellClasses = 'bg-slate-950/30 border-slate-900/60 opacity-45 hover:opacity-75';
+        } else if (isAllDone) {
+          cellClasses = 'bg-emerald-950/30 border-emerald-500/45 hover:border-emerald-400';
+        } else if (isExam) {
+          cellClasses = 'bg-rose-950/25 border-rose-500/40 hover:border-rose-400';
         }
-      };
 
-      const theme = accentMap[accentColor];
+        if (isSelected) {
+          cellClasses += ' ring-2 ring-indigo-400 border-indigo-400 bg-indigo-950/35 !opacity-100';
+        }
 
-      return `
-        <div class="group flex items-start justify-between gap-2 p-2.5 rounded-xl border transition-all ${theme.row}">
-          <label for="chk_${escapeHtml(taskId)}" class="flex items-start gap-2.5 flex-1 min-w-0 cursor-pointer select-none">
-            <input
-              id="chk_${escapeHtml(taskId)}"
-              type="checkbox"
-              data-task-id="${escapeHtml(taskId)}"
-              class="task-checkbox sr-only"
-              ${isChecked ? 'checked' : ''}
-            />
-            <span
-              class="checkbox-pop mt-0.5 w-4.5 h-4.5 w-[18px] h-[18px] rounded-[5px] border flex items-center justify-center shrink-0 ${theme.box}"
-              aria-hidden="true"
-            >
-              ${isChecked ? `
-                <svg class="w-3 h-3 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              ` : ''}
-            </span>
-            <div class="flex-1 min-w-0">
-              <div class="text-xs sm:text-[13px] font-medium leading-snug break-words ${isChecked ? 'line-through text-slate-500' : 'text-slate-100'}">
-                ${labelHtml}
-              </div>
-              ${sublabelHtml ? `
-                <div class="text-[11px] mt-0.5 leading-snug ${isChecked ? 'text-slate-600' : 'text-slate-400'}">
-                  ${sublabelHtml}
-                </div>
-              ` : ''}
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('data-date-iso', iso);
+        btn.setAttribute('aria-label', `${formatReadableDate(iso)}${total > 0 ? `, ${done} of ${total} tasks completed` : ''}`);
+        btn.className = `calendar-day-btn tap-scale min-h-[56px] sm:min-h-[68px] rounded-xl border p-1.5 sm:p-2 flex flex-col justify-between text-left transition-all cursor-pointer ${cellClasses}`;
+
+        btn.innerHTML = `
+          <!-- Top Row: Date Number + Block/Exam Badge -->
+          <div class="w-full flex items-center justify-between gap-0.5">
+            <span class="text-xs sm:text-sm font-bold leading-none ${
+              isToday
+                ? 'px-1.5 py-0.5 rounded-md bg-indigo-500 text-white'
+                : isSelected
+                  ? 'text-white'
+                  : inCurrentMonth
+                    ? 'text-slate-200'
+                    : 'text-slate-500'
+            }">${dayNum}</span>
+
+            ${isExam ? `
+              <span class="px-1 py-0.5 rounded text-[9px] font-mono font-bold bg-rose-500/25 text-rose-300 border border-rose-500/40 leading-none">
+                EXAM
+              </span>
+            ` : blockLabel ? `
+              <span class="px-1 py-0.5 rounded text-[9px] font-mono font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 leading-none">
+                ${blockLabel}
+              </span>
+            ` : ''}
+          </div>
+
+          <!-- Bottom Row: Stage Dots + Completion Ratio or Green Checkmark -->
+          <div class="w-full flex items-center justify-between gap-1 pt-1">
+            <div class="flex items-center gap-0.5 flex-wrap">
+              ${dotHtml}
             </div>
-          </label>
-          ${deleteAction ? `
-            <button
-              type="button"
-              data-delete-type="${escapeHtml(deleteAction.type)}"
-              data-delete-id="${escapeHtml(deleteAction.id)}"
-              class="delete-item-btn px-1.5 py-0.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-950/50 text-sm font-mono leading-none transition-colors cursor-pointer shrink-0"
-              title="Delete item"
-              aria-label="Delete item"
-            >
-              &times;
-            </button>
-          ` : ''}
-        </div>
-      `;
+
+            ${total > 0 ? (
+              isAllDone ? `
+                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500/25 text-emerald-300" title="All ${total} tasks completed">
+                  <svg class="w-2.5 h-2.5 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+              ` : `
+                <span class="text-[10px] font-mono font-medium ${done > 0 ? 'text-slate-200' : 'text-slate-500'}">
+                  ${done}/${total}
+                </span>
+              `
+            ) : ''}
+          </div>
+        `;
+
+        grid.appendChild(btn);
+      }
     }
 
     /**
-     * Render all day cards with separate Day 1, Day 3, Day 7, and Day 18 boxes
+     * ============================================================================
+     * RENDER SELECTED DAY ASSIGNMENT CARD (SINGLE UNIFIED CHECKLIST BOX)
+     * ============================================================================
      */
-    function renderApp() {
-      const schedule = buildSchedule();
-      const container = document.getElementById('daysContainer');
-      const emptyState = document.getElementById('emptyState');
-      container.innerHTML = '';
+    function renderSelectedDayCard(schedule) {
+      const { tasksByDate } = schedule;
+      const tasks = tasksByDate.get(selectedDateIso) || [];
+      const total = tasks.length;
+      const done = tasks.filter(t => Boolean(appState.completedMap[t.id])).length;
 
-      let visibleCount = 0;
+      // 1. Date & Study Day Header
+      const studyDayOffset = diffDaysIso(selectedDateIso, START_DATE_ISO);
+      const readableDate = formatReadableDate(selectedDateIso);
+      const headingEl = document.getElementById('selectedDayHeading');
+      const subheadingEl = document.getElementById('selectedDaySubheading');
+      const statusBadgeEl = document.getElementById('selectedDayStatusBadge');
 
-      schedule.days.forEach(day => {
-        const isDayComplete = day.totalCount > 0 && day.doneCount === day.totalCount;
+      if (studyDayOffset >= 0) {
+        headingEl.textContent = `${readableDate} · Study Day ${studyDayOffset + 1}`;
+      } else {
+        headingEl.textContent = `${readableDate} · Pre-Start (${Math.abs(studyDayOffset)}d before Nov 30)`;
+      }
 
-        // Apply active filter
-        if (state.filter === 'upcoming' && day.iso < schedule.todayIso) return;
-        if (state.filter === 'incomplete' && day.doneCount >= day.totalCount) return;
-        if (state.filter === 'completed' && !isDayComplete) return;
+      // Subheading summary of stages due on this day
+      if (selectedDateIso === EXAM_DATE_ISO) {
+        subheadingEl.textContent = 'Final Exam Day · Linear Algebra & Geometry';
+      } else if (total === 0) {
+        subheadingEl.textContent = studyDayOffset < 0
+          ? 'Course tracker starts Monday, Nov 30, 2026'
+          : 'Open consolidation / past-paper practice day';
+      } else {
+        const d1Count  = tasks.filter(t => t.stage === 'DAY 1').length;
+        const revCount = tasks.filter(t => t.stage === 'DAY 3' || t.stage === 'DAY 7' || t.stage === 'DAY 18').length;
+        const noteCount = tasks.filter(t => t.stage === 'NOTE').length;
+        const parts = [];
+        if (d1Count) parts.push(`${d1Count} Day 1 encoding`);
+        if (revCount) parts.push(`${revCount} spaced review${revCount > 1 ? 's' : ''}`);
+        if (noteCount) parts.push(`${noteCount} note${noteCount > 1 ? 's' : ''}`);
+        subheadingEl.textContent = parts.join(' • ');
+      }
 
-        visibleCount++;
+      // Status Pill
+      if (total === 0) {
+        statusBadgeEl.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-slate-800 text-slate-400';
+        statusBadgeEl.textContent = 'No tasks';
+      } else if (done === total) {
+        statusBadgeEl.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/35';
+        statusBadgeEl.textContent = `✓ All ${total} done`;
+      } else {
+        statusBadgeEl.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30';
+        statusBadgeEl.textContent = `${done} / ${total} done`;
+      }
 
-        // 1. DAY 1 · NEW ENCODING BOX (Indigo — shown on days with a new block)
-        let day1BoxHtml = '';
-        if (day.day1Block) {
-          const b = day.day1Block;
-          const noteVal = state.blockNotes[b.blockId] || '';
-          const extraBadge = b.isExtra
-            ? `<span class="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30">TOPICS 6–7</span>`
-            : '';
+      // Peak Load Banner (when Day 1 + Day 3 + Day 7 all overlap on the same date)
+      const hasD1 = tasks.some(t => t.stage === 'DAY 1');
+      const hasD3 = tasks.some(t => t.stage === 'DAY 3');
+      const hasD7 = tasks.some(t => t.stage === 'DAY 7');
+      document.getElementById('peakLoadBanner').classList.toggle('hidden', !(hasD1 && hasD3 && hasD7));
 
-          day1BoxHtml = `
-            <div class="rounded-xl border border-indigo-500/35 bg-indigo-950/20 p-3.5 space-y-2.5">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
-                  <h3 class="text-xs font-mono font-bold tracking-wider uppercase text-indigo-300">
-                    DAY 1 &middot; NEW ENCODING
-                  </h3>
-                  ${extraBadge}
-                </div>
-                <span class="text-[11px] font-mono text-indigo-300/80">
-                  Block ${b.blockId} (${b.pageCount} pp.)
-                </span>
-              </div>
+      // Exam Banner on Jan 21, 2027
+      document.getElementById('examDayBanner').classList.toggle('hidden', selectedDateIso !== EXAM_DATE_ISO);
 
-              ${renderCheckboxRow({
-                taskId: `${b.blockId}_new`,
-                labelHtml: `Encode ${b.blockId} &middot; pp. ${b.startPage}–${b.endPage}`,
-                sublabelHtml: `Read ${b.pageCount} pages, reconstruct proofs step-by-step &amp; solve guide questions`,
-                accentColor: 'indigo'
-              })}
+      // Unified Box Count Label
+      document.getElementById('unifiedBoxCountLabel').textContent = total === 1 ? '1 assignment' : `${total} assignments`;
 
-              <div class="relative flex items-center">
-                <span class="absolute left-3 text-amber-400 text-xs select-none pointer-events-none">★</span>
+      // Render Unified Checklist Rows
+      const checklistEl = document.getElementById('unifiedChecklist');
+      const emptyEl = document.getElementById('emptyDayMessage');
+
+      if (total === 0) {
+        checklistEl.innerHTML = '';
+        emptyEl.classList.remove('hidden');
+      } else {
+        emptyEl.classList.add('hidden');
+
+        const badgeStyles = {
+          indigo:  'bg-indigo-500/15 text-indigo-300 border-indigo-500/35',
+          amber:   'bg-amber-500/15 text-amber-300 border-amber-500/35',
+          cyan:    'bg-cyan-500/15 text-cyan-300 border-cyan-500/35',
+          violet:  'bg-violet-500/15 text-violet-300 border-violet-500/35',
+          emerald: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/35'
+        };
+
+        const checkBoxCheckedStyles = {
+          indigo:  'bg-indigo-500 border-indigo-400 text-white',
+          amber:   'bg-amber-400 border-amber-300 text-slate-950',
+          cyan:    'bg-cyan-400 border-cyan-300 text-slate-950',
+          violet:  'bg-violet-400 border-violet-300 text-slate-950',
+          emerald: 'bg-emerald-400 border-emerald-300 text-slate-950'
+        };
+
+        checklistEl.innerHTML = tasks.map(task => {
+          const isChecked = Boolean(appState.completedMap[task.id]);
+          const badgeCls = badgeStyles[task.color] || badgeStyles.indigo;
+          const boxCls = isChecked
+            ? checkBoxCheckedStyles[task.color]
+            : 'bg-slate-900 border-slate-600 group-hover:border-slate-400';
+
+          return `
+            <div class="group flex items-center justify-between gap-2.5 p-3 rounded-xl border transition-all ${
+              isChecked
+                ? 'bg-slate-900/45 border-slate-800/60'
+                : 'bg-slate-900/95 border-slate-800 hover:border-slate-700'
+            }">
+              <label for="task_${escapeHtml(task.id)}" class="flex items-start gap-3 flex-1 min-w-0 cursor-pointer select-none py-0.5">
                 <input
-                  type="text"
-                  data-block-note="${b.blockId}"
-                  value="${escapeHtml(noteVal)}"
-                  placeholder="Log ★ starred guide questions &amp; tricky proofs for ${b.blockId}..."
-                  class="block-note-input w-full bg-slate-950/80 hover:bg-slate-950 focus:bg-slate-950 text-xs text-slate-200 placeholder-slate-500 pl-7 pr-3 py-2 rounded-xl border border-indigo-500/25 focus:border-indigo-400 focus:outline-none transition-colors"
+                  id="task_${escapeHtml(task.id)}"
+                  type="checkbox"
+                  data-task-id="${escapeHtml(task.id)}"
+                  class="unified-task-checkbox sr-only"
+                  ${isChecked ? 'checked' : ''}
                 />
+                <span
+                  class="tap-scale mt-0.5 w-[22px] h-[22px] rounded-lg border-2 flex items-center justify-center shrink-0 ${boxCls}"
+                  aria-hidden="true"
+                >
+                  ${isChecked ? `
+                    <svg class="w-3.5 h-3.5 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  ` : ''}
+                </span>
+
+                <div class="flex-1 min-w-0">
+                  <div class="text-xs sm:text-sm font-medium leading-snug break-words ${
+                    isChecked ? 'line-through text-slate-500' : 'text-slate-100'
+                  }">
+                    ${escapeHtml(task.title)}
+                  </div>
+                  <div class="text-[11px] mt-0.5 leading-snug ${
+                    isChecked ? 'text-slate-600' : 'text-slate-400'
+                  }">
+                    ${escapeHtml(task.subtitle)}
+                  </div>
+                </div>
+              </label>
+
+              <div class="flex items-center gap-1.5 shrink-0">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold tracking-wide border ${badgeCls}">
+                  ${escapeHtml(task.stage)}
+                </span>
+
+                ${task.deletable ? `
+                  <button
+                    type="button"
+                    data-delete-type="${escapeHtml(task.deleteType)}"
+                    data-root-id="${escapeHtml(task.cascadeRootId || task.singleId)}"
+                    class="delete-task-btn tap-scale w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 hover:text-rose-400 hover:bg-rose-950/60 text-base font-mono transition-colors cursor-pointer"
+                    title="Delete item"
+                    aria-label="Delete item"
+                  >
+                    &times;
+                  </button>
+                ` : ''}
               </div>
             </div>
           `;
-        }
+        }).join('');
+      }
 
-        // 2. DAY 3 REVIEW BOX (Amber — shown on EVERY day card, auto-syncs to Day 7 & Day 18)
-        const d7PreviewLabel = formatMonthDayFromIso(addDaysToIso(day.iso, 4));
-        const d18PreviewLabel = formatMonthDayFromIso(addDaysToIso(day.iso, 15));
+      // Update Auto-Compile Target Preview Text inside the composer
+      updateAutoCompilePreview();
+    }
 
-        let day3ItemsHtml = '';
-        if (day.day3Block) {
-          const b = day.day3Block;
-          day3ItemsHtml += renderCheckboxRow({
-            taskId: `${b.blockId}_d3`,
-            labelHtml: `Review ${b.blockId} &middot; pp. ${b.startPage}–${b.endPage}`,
-            sublabelHtml: `~20m closed-book definitions/theorems + ★ questions`,
-            accentColor: 'amber'
-          });
-        }
-        day.day3Custom.forEach(item => {
-          day3ItemsHtml += renderCheckboxRow({
-            taskId: item.taskId,
-            labelHtml: escapeHtml(item.text),
-            sublabelHtml: `Synced &rarr; ${d7PreviewLabel} (Day 7) &amp; ${d18PreviewLabel} (Day 18)`,
-            accentColor: 'amber',
-            deleteAction: { type: 'day3', id: item.itemId }
-          });
-        });
+    /**
+     * Update the composer toggle appearance & target review date preview
+     */
+    function updateAutoCompilePreview() {
+      const toggleBtn = document.getElementById('autoCompileToggleBtn');
+      const track = document.getElementById('toggleTrack');
+      const thumb = document.getElementById('toggleThumb');
+      const previewEl = document.getElementById('autoCompilePreviewText');
 
-        const day3BoxHtml = `
-          <div class="rounded-xl border border-amber-500/35 bg-amber-950/15 p-3.5 flex flex-col justify-between gap-2.5">
-            <div class="space-y-2">
-              <div class="flex flex-wrap items-center justify-between gap-1.5">
-                <div class="flex items-center gap-1.5">
-                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                  <h3 class="text-xs font-mono font-bold tracking-wider uppercase text-amber-300">
-                    DAY 3 REVIEW
-                  </h3>
-                </div>
-                <span class="px-1.5 py-0.5 rounded-md text-[10px] font-mono bg-amber-500/15 text-amber-200 border border-amber-500/30">
-                  Auto-syncs to Day 7 (+4d) &amp; Day 18 (+15d)
-                </span>
-              </div>
+      toggleBtn.setAttribute('aria-checked', String(autoCompileOn));
 
-              ${day3ItemsHtml ? `<div class="space-y-2">${day3ItemsHtml}</div>` : `
-                <p class="text-[11px] text-slate-500 italic py-1">
-                  No scheduled block today. Add any weak topic below to review now &amp; auto-schedule on ${d7PreviewLabel} + ${d18PreviewLabel}.
-                </p>
-              `}
-            </div>
+      if (autoCompileOn) {
+        toggleBtn.className = 'tap-scale inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/40 text-indigo-200 text-xs font-medium self-start cursor-pointer';
+        track.className = 'w-7 h-4 rounded-full bg-indigo-500 relative transition-colors flex items-center px-0.5';
+        thumb.className = 'w-3 h-3 rounded-full bg-white shadow transform translate-x-3 transition-transform';
 
-            <div class="flex items-center gap-1.5 pt-1">
-              <input
-                type="text"
-                data-add-stage="day3"
-                data-date-iso="${day.iso}"
-                placeholder="Add topic/proof to review on Day 3..."
-                class="stage-add-input flex-1 min-w-0 bg-slate-950/85 hover:bg-slate-950 focus:bg-slate-950 text-xs text-slate-100 placeholder-slate-500 px-2.5 py-2 rounded-xl border border-amber-500/25 focus:border-amber-400 focus:outline-none transition-colors"
-              />
-              <button
-                type="button"
-                data-add-btn-stage="day3"
-                data-date-iso="${day.iso}"
-                class="stage-add-btn px-2.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/35 text-xs font-semibold transition-colors cursor-pointer shrink-0"
-              >
-                + Add
-              </button>
-            </div>
-          </div>
-        `;
-
-        // 3. DAY 7 REVIEW BOX (Cyan — shown on EVERY day card)
-        let day7ItemsHtml = '';
-        if (day.day7Block) {
-          const b = day.day7Block;
-          day7ItemsHtml += renderCheckboxRow({
-            taskId: `${b.blockId}_d7`,
-            labelHtml: `Deep Review ${b.blockId} &middot; pp. ${b.startPage}–${b.endPage}`,
-            sublabelHtml: `~25m hardest proofs &amp; unseen edge-case problems`,
-            accentColor: 'cyan'
-          });
-        }
-        day.day7Cascaded.forEach(item => {
-          day7ItemsHtml += renderCheckboxRow({
-            taskId: item.taskId,
-            labelHtml: `
-              <span>${escapeHtml(item.text)}</span>
-              <span class="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 align-middle">
-                Auto from ${item.sourceLabel} &middot; Day 3
-              </span>
-            `,
-            accentColor: 'cyan'
-          });
-        });
-        day.day7Custom.forEach(item => {
-          day7ItemsHtml += renderCheckboxRow({
-            taskId: item.taskId,
-            labelHtml: escapeHtml(item.text),
-            sublabelHtml: `Standalone Day 7 review`,
-            accentColor: 'cyan',
-            deleteAction: { type: 'day7', id: item.itemId }
-          });
-        });
-
-        const day7BoxHtml = `
-          <div class="rounded-xl border border-cyan-500/35 bg-cyan-950/15 p-3.5 flex flex-col justify-between gap-2.5">
-            <div class="space-y-2">
-              <div class="flex items-center justify-between gap-2">
-                <div class="flex items-center gap-1.5">
-                  <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                  <h3 class="text-xs font-mono font-bold tracking-wider uppercase text-cyan-300">
-                    DAY 7 REVIEW
-                  </h3>
-                </div>
-                <span class="text-[10px] font-mono text-cyan-300/75">+6d / +4d cascade</span>
-              </div>
-
-              ${day7ItemsHtml ? `<div class="space-y-2">${day7ItemsHtml}</div>` : `
-                <p class="text-[11px] text-slate-500 italic py-1">
-                  Nothing scheduled yet. Items entered on Day 3 (${formatMonthDayFromIso(addDaysToIso(day.iso, -4))}) appear here automatically.
-                </p>
-              `}
-            </div>
-
-            <div class="flex items-center gap-1.5 pt-1">
-              <input
-                type="text"
-                data-add-stage="day7"
-                data-date-iso="${day.iso}"
-                placeholder="+ Add Day 7-only item..."
-                class="stage-add-input flex-1 min-w-0 bg-slate-950/85 hover:bg-slate-950 focus:bg-slate-950 text-xs text-slate-100 placeholder-slate-500 px-2.5 py-2 rounded-xl border border-cyan-500/25 focus:border-cyan-400 focus:outline-none transition-colors"
-              />
-              <button
-                type="button"
-                data-add-btn-stage="day7"
-                data-date-iso="${day.iso}"
-                class="stage-add-btn px-2.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 border border-cyan-500/35 text-xs font-semibold transition-colors cursor-pointer shrink-0"
-              >
-                + Add
-              </button>
-            </div>
-          </div>
-        `;
-
-        // 4. DAY 18 SYNTHESIS BOX (Violet/Purple — shown on EVERY day card)
-        let day18ItemsHtml = '';
-        if (day.day18Block) {
-          const b = day.day18Block;
-          day18ItemsHtml += renderCheckboxRow({
-            taskId: `${b.blockId}_d18`,
-            labelHtml: `Synthesis ${b.blockId} &middot; pp. ${b.startPage}–${b.endPage}`,
-            sublabelHtml: `~20m cross-topic diagnostic &amp; fragile theorem check`,
-            accentColor: 'violet'
-          });
-        }
-        day.day18Cascaded.forEach(item => {
-          day18ItemsHtml += renderCheckboxRow({
-            taskId: item.taskId,
-            labelHtml: `
-              <span>${escapeHtml(item.text)}</span>
-              <span class="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-violet-500/15 text-violet-300 border border-violet-500/30 align-middle">
-                Auto from ${item.sourceLabel} &middot; Day 3
-              </span>
-            `,
-            accentColor: 'violet'
-          });
-        });
-        day.day18Custom.forEach(item => {
-          day18ItemsHtml += renderCheckboxRow({
-            taskId: item.taskId,
-            labelHtml: escapeHtml(item.text),
-            sublabelHtml: `Standalone Day 18 synthesis item`,
-            accentColor: 'violet',
-            deleteAction: { type: 'day18', id: item.itemId }
-          });
-        });
-
-        const day18BoxHtml = `
-          <div class="rounded-xl border border-violet-500/35 bg-violet-950/15 p-3.5 flex flex-col justify-between gap-2.5">
-            <div class="space-y-2">
-              <div class="flex items-center justify-between gap-2">
-                <div class="flex items-center gap-1.5">
-                  <span class="w-2 h-2 rounded-full bg-violet-400"></span>
-                  <h3 class="text-xs font-mono font-bold tracking-wider uppercase text-violet-300">
-                    DAY 18 SYNTHESIS
-                  </h3>
-                </div>
-                <span class="text-[10px] font-mono text-violet-300/75">+17d / +15d cascade</span>
-              </div>
-
-              ${day18ItemsHtml ? `<div class="space-y-2">${day18ItemsHtml}</div>` : `
-                <p class="text-[11px] text-slate-500 italic py-1">
-                  Nothing scheduled yet. Items entered on Day 3 (${formatMonthDayFromIso(addDaysToIso(day.iso, -15))}) appear here automatically.
-                </p>
-              `}
-            </div>
-
-            <div class="flex items-center gap-1.5 pt-1">
-              <input
-                type="text"
-                data-add-stage="day18"
-                data-date-iso="${day.iso}"
-                placeholder="+ Add Day 18-only item..."
-                class="stage-add-input flex-1 min-w-0 bg-slate-950/85 hover:bg-slate-950 focus:bg-slate-950 text-xs text-slate-100 placeholder-slate-500 px-2.5 py-2 rounded-xl border border-violet-500/25 focus:border-violet-400 focus:outline-none transition-colors"
-              />
-              <button
-                type="button"
-                data-add-btn-stage="day18"
-                data-date-iso="${day.iso}"
-                class="stage-add-btn px-2.5 py-2 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 text-violet-200 border border-violet-500/35 text-xs font-semibold transition-colors cursor-pointer shrink-0"
-              >
-                + Add
-              </button>
-            </div>
-          </div>
-        `;
-
-        // Peak Load Warning Banner
-        const peakBannerHtml = day.isPeak ? `
-          <div class="px-3.5 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-2 text-xs text-amber-200/95">
-            <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>
-              <strong class="font-semibold text-amber-300">Peak Load Day:</strong> Cap total review time at <strong>45 mins</strong>. Recall definitions/theorems &amp; re-do ★ questions only—do not re-read old notes.
-            </span>
-          </div>
-        ` : '';
-
-        // Outer Card Border Styling
-        const cardBorderClass = day.isToday
-          ? 'border-indigo-500/60 bg-slate-900/95 ring-1 ring-indigo-500/30'
-          : isDayComplete
-            ? 'border-emerald-500/35 bg-slate-900/75'
-            : 'border-slate-800/90 bg-slate-900/90';
-
-        const cardEl = document.createElement('article');
-        cardEl.id = `day_${day.iso}`;
-        cardEl.className = `rounded-2xl border p-4 sm:p-5 shadow-sm transition-all space-y-3.5 ${cardBorderClass}`;
-        cardEl.innerHTML = `
-          <!-- Day Header -->
-          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800/80">
-            <div class="flex flex-wrap items-center gap-2">
-              <div class="flex items-baseline gap-2">
-                <span class="text-base sm:text-lg font-bold text-white tracking-tight">${day.dateLabel}</span>
-                <span class="text-xs font-mono uppercase tracking-wider text-slate-400">${day.weekday}</span>
-              </div>
-              <span class="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-mono text-[11px]">
-                Day ${day.dayNumber}
-              </span>
-              ${day.isToday ? `
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide bg-indigo-600 text-white shadow-sm">
-                  TODAY
-                </span>
-              ` : ''}
-              ${day.isPeak ? `
-                <span class="px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                  Peak Load
-                </span>
-              ` : ''}
-            </div>
-
-            <div class="flex items-center gap-2">
-              ${isDayComplete ? `
-                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                  Day Complete (${day.doneCount}/${day.totalCount})
-                </span>
-              ` : `
-                <span class="text-xs font-mono text-slate-400">
-                  ${day.doneCount} / ${day.totalCount} done
-                </span>
-              `}
-            </div>
-          </div>
-
-          ${peakBannerHtml}
-
-          <!-- Day 1 New Encoding Box (if applicable on this date) -->
-          ${day1BoxHtml}
-
-          <!-- Separate Boxes for Day 3, Day 7, and Day 18 -->
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
-            ${day3BoxHtml}
-            ${day7BoxHtml}
-            ${day18BoxHtml}
-          </div>
-        `;
-
-        container.appendChild(cardEl);
-      });
-
-      if (visibleCount === 0) {
-        emptyState.classList.remove('hidden');
+        const d3Label  = formatShortDate(addDaysIso(selectedDateIso, 2));
+        const d7Label  = formatShortDate(addDaysIso(selectedDateIso, 6));
+        const d18Label = formatShortDate(addDaysIso(selectedDateIso, 17));
+        previewEl.textContent = `Auto-schedules: ${d3Label} (D3) · ${d7Label} (D7) · ${d18Label} (D18)`;
       } else {
-        emptyState.classList.add('hidden');
-      }
+        toggleBtn.className = 'tap-scale inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-slate-400 text-xs font-medium self-start cursor-pointer';
+        track.className = 'w-7 h-4 rounded-full bg-slate-700 relative transition-colors flex items-center px-0.5';
+        thumb.className = 'w-3 h-3 rounded-full bg-slate-300 shadow transform translate-x-0 transition-transform';
 
-      updateDashboard(schedule);
-    }
-
-    /**
-     * Add a new item to Day 3 (with auto-cascade to Day 7 & Day 18), Day 7, or Day 18
-     */
-    function handleAddStageItem(stage, dateIso, inputEl) {
-      if (!inputEl) return;
-      const text = inputEl.value.trim();
-      if (!text) return;
-
-      // Immediately clear input so subsequent blur/enter events cannot double-submit
-      inputEl.value = '';
-
-      if (stage === 'day3') {
-        const newItem = {
-          id: generateUid('c3'),
-          sourceIso: dateIso,
-          text
-        };
-        state.day3Items.push(newItem);
-        saveState();
-        renderApp();
-
-        const d7Label = formatMonthDayFromIso(addDaysToIso(dateIso, 4));
-        const d18Label = formatMonthDayFromIso(addDaysToIso(dateIso, 15));
-        showToast(`Added to Day 3 → Auto-synced to ${d7Label} (Day 7) & ${d18Label} (Day 18)`);
-      } else if (stage === 'day7') {
-        state.day7Standalone.push({
-          id: generateUid('s7'),
-          dateIso,
-          text
-        });
-        saveState();
-        renderApp();
-        showToast(`Added standalone item to Day 7 (${formatMonthDayFromIso(dateIso)})`);
-      } else if (stage === 'day18') {
-        state.day18Standalone.push({
-          id: generateUid('s18'),
-          dateIso,
-          text
-        });
-        saveState();
-        renderApp();
-        showToast(`Added standalone item to Day 18 (${formatMonthDayFromIso(dateIso)})`);
+        previewEl.textContent = `Single-day note on ${formatShortDate(selectedDateIso)} only`;
       }
     }
 
     /**
-     * Delete a custom item (and its cascaded copies if Day 3)
+     * ============================================================================
+     * MASTER RENDER PIPELINE
+     * ============================================================================
      */
-    function handleDeleteItem(type, itemId) {
-      if (type === 'day3') {
-        state.day3Items = state.day3Items.filter(it => it.id !== itemId);
-        delete state.completedTasks[`${itemId}_d3`];
-        delete state.completedTasks[`${itemId}_d7`];
-        delete state.completedTasks[`${itemId}_d18`];
-        saveState();
-        renderApp();
-        showToast('Removed item from Day 3, Day 7, and Day 18');
-      } else if (type === 'day7') {
-        state.day7Standalone = state.day7Standalone.filter(it => it.id !== itemId);
-        delete state.completedTasks[itemId];
-        saveState();
-        renderApp();
-        showToast('Removed Day 7 item');
-      } else if (type === 'day18') {
-        state.day18Standalone = state.day18Standalone.filter(it => it.id !== itemId);
-        delete state.completedTasks[itemId];
-        saveState();
-        renderApp();
-        showToast('Removed Day 18 item');
-      }
+    function renderAll() {
+      const schedule = buildScheduleIndex();
+      renderHeaderStats(schedule);
+      renderCalendar(schedule);
+      renderSelectedDayCard(schedule);
+    }
+
+    function selectDate(isoStr) {
+      selectedDateIso = isoStr;
+      activeMonthKey = isoStr.slice(0, 7);
+      renderAll();
     }
 
     /**
-     * Highlight Active Filter Tab
-     */
-    function updateFilterButtons() {
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        const active = btn.getAttribute('data-filter') === state.filter;
-        if (active) {
-          btn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
-          btn.classList.remove('text-slate-400', 'hover:text-slate-200');
-        } else {
-          btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm');
-          btn.classList.add('text-slate-400', 'hover:text-slate-200');
-        }
-      });
-    }
-
-    /**
-     * Bind All UI Event Listeners
+     * ============================================================================
+     * EVENT HANDLERS
+     * ============================================================================
      */
     function bindEvents() {
-      const container = document.getElementById('daysContainer');
+      // 1. Calendar Day Selection
+      document.getElementById('calendarGrid').addEventListener('click', (e) => {
+        const dayBtn = e.target.closest('.calendar-day-btn');
+        if (!dayBtn) return;
+        const iso = dayBtn.getAttribute('data-date-iso');
+        if (iso) {
+          selectDate(iso);
+        }
+      });
 
-      // 1. Checkbox toggles
-      container.addEventListener('change', (e) => {
-        if (e.target.classList.contains('task-checkbox')) {
-          const taskId = e.target.getAttribute('data-task-id');
-          if (e.target.checked) {
-            state.completedTasks[taskId] = true;
-          } else {
-            delete state.completedTasks[taskId];
-          }
+      // 2. Month Tabs & Prev/Next Month Arrows
+      document.getElementById('monthTabsContainer').addEventListener('click', (e) => {
+        const tabBtn = e.target.closest('.month-tab-btn');
+        if (!tabBtn) return;
+        activeMonthKey = tabBtn.getAttribute('data-month-key');
+        renderAll();
+      });
+
+      document.getElementById('prevMonthBtn').addEventListener('click', () => {
+        const schedule = buildScheduleIndex();
+        const months = getAvailableMonths(schedule.tasksByDate);
+        const idx = months.findIndex(m => m.key === activeMonthKey);
+        if (idx > 0) {
+          activeMonthKey = months[idx - 1].key;
+          renderAll();
+        }
+      });
+
+      document.getElementById('nextMonthBtn').addEventListener('click', () => {
+        const schedule = buildScheduleIndex();
+        const months = getAvailableMonths(schedule.tasksByDate);
+        const idx = months.findIndex(m => m.key === activeMonthKey);
+        if (idx >= 0 && idx < months.length - 1) {
+          activeMonthKey = months[idx + 1].key;
+          renderAll();
+        }
+      });
+
+      // 3. Quick Jump Pills ("Start · Nov 30", "Today", "Exam · Jan 21")
+      document.getElementById('jumpStartBtn').addEventListener('click', () => {
+        selectDate(START_DATE_ISO);
+      });
+
+      document.getElementById('jumpTodayBtn').addEventListener('click', () => {
+        const todayIso = getLocalTodayIso();
+        selectDate(todayIso);
+        if (todayIso < START_DATE_ISO) {
+          showToast(`Today is ${formatShortDate(todayIso)} — study begins Monday, Nov 30`);
+        }
+      });
+
+      document.getElementById('jumpExamBtn').addEventListener('click', () => {
+        selectDate(EXAM_DATE_ISO);
+      });
+
+      // 4. Prev Day / Next Day Navigation inside Selected Day Card
+      document.getElementById('prevDayBtn').addEventListener('click', () => {
+        const prevIso = addDaysIso(selectedDateIso, -1);
+        if (prevIso >= '2026-11-01') {
+          selectDate(prevIso);
+        }
+      });
+
+      document.getElementById('nextDayBtn').addEventListener('click', () => {
+        const nextIso = addDaysIso(selectedDateIso, 1);
+        if (nextIso <= '2027-04-30') {
+          selectDate(nextIso);
+        }
+      });
+
+      // 5. Unified Checklist Checkbox Toggling
+      document.getElementById('unifiedChecklist').addEventListener('change', (e) => {
+        if (!e.target.classList.contains('unified-task-checkbox')) return;
+        const taskId = e.target.getAttribute('data-task-id');
+        if (e.target.checked) {
+          appState.completedMap[taskId] = true;
+        } else {
+          delete appState.completedMap[taskId];
+        }
+        saveState();
+        renderAll();
+      });
+
+      // 6. Delete User-Added Study Items (cascaded or single-day)
+      document.getElementById('unifiedChecklist').addEventListener('click', (e) => {
+        const delBtn = e.target.closest('.delete-task-btn');
+        if (!delBtn) return;
+
+        const deleteType = delBtn.getAttribute('data-delete-type');
+        const rootId = delBtn.getAttribute('data-root-id');
+
+        if (deleteType === 'cascade') {
+          appState.customCascades = appState.customCascades.filter(item => item.id !== rootId);
+          delete appState.completedMap[`${rootId}_d1`];
+          delete appState.completedMap[`${rootId}_d3`];
+          delete appState.completedMap[`${rootId}_d7`];
+          delete appState.completedMap[`${rootId}_d18`];
           saveState();
-          renderApp();
-        }
-      });
-
-      // 2. Block encoding notes (auto-save on input)
-      let noteTimer = null;
-      container.addEventListener('input', (e) => {
-        if (e.target.classList.contains('block-note-input')) {
-          const blockId = e.target.getAttribute('data-block-note');
-          state.blockNotes[blockId] = e.target.value;
+          renderAll();
+          showToast('Deleted item from Day 1, Day 3, Day 7 & Day 18');
+        } else if (deleteType === 'single') {
+          appState.singleTasks = appState.singleTasks.filter(item => item.id !== rootId);
+          delete appState.completedMap[rootId];
           saveState();
-          clearTimeout(noteTimer);
-          noteTimer = setTimeout(() => showToast(`Saved ${blockId} encoding note`), 900);
+          renderAll();
+          showToast('Deleted single-day note');
         }
       });
 
-      // 3. Add item via Enter key in Day 3 / Day 7 / Day 18 inputs
-      container.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && e.target.classList.contains('stage-add-input')) {
-          e.preventDefault();
-          const stage = e.target.getAttribute('data-add-stage');
-          const dateIso = e.target.getAttribute('data-date-iso');
-          handleAddStageItem(stage, dateIso, e.target);
+      // 7. Auto-Compile Toggle Pill
+      document.getElementById('autoCompileToggleBtn').addEventListener('click', () => {
+        autoCompileOn = !autoCompileOn;
+        updateAutoCompilePreview();
+      });
+
+      // 8. Add Study Item Form Submission
+      document.getElementById('addStudyItemForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const inputEl = document.getElementById('studyItemInput');
+        const text = inputEl.value.trim();
+        if (!text) return;
+
+        inputEl.value = '';
+
+        if (autoCompileOn) {
+          const newId = makeId('casc');
+          appState.customCascades.push({
+            id: newId,
+            day1Iso: selectedDateIso,
+            text
+          });
+          saveState();
+          renderAll();
+
+          const d3Str  = formatShortDate(addDaysIso(selectedDateIso, 2));
+          const d7Str  = formatShortDate(addDaysIso(selectedDateIso, 6));
+          const d18Str = formatShortDate(addDaysIso(selectedDateIso, 17));
+          showToast(`Added on ${formatShortDate(selectedDateIso)} → Auto-compiled to ${d3Str}, ${d7Str} & ${d18Str}`);
+        } else {
+          const newId = makeId('note');
+          appState.singleTasks.push({
+            id: newId,
+            dateIso: selectedDateIso,
+            text
+          });
+          saveState();
+          renderAll();
+          showToast(`Added single-day note on ${formatShortDate(selectedDateIso)}`);
         }
       });
 
-      // 4. Add item automatically on blur (when leaving input with text)
-      container.addEventListener('focusout', (e) => {
-        if (e.target.classList.contains('stage-add-input') && e.target.value.trim() !== '') {
-          const stage = e.target.getAttribute('data-add-stage');
-          const dateIso = e.target.getAttribute('data-date-iso');
-          handleAddStageItem(stage, dateIso, e.target);
+      // 9. "+ Add Pages" Non-Destructive Modal
+      const addPagesModal = document.getElementById('addPagesModal');
+      const pagesInput = document.getElementById('pagesNumberInput');
+      const pagesLabel = document.getElementById('pagesInputLabel');
+
+      function updatePageModeUI() {
+        document.querySelectorAll('.page-mode-btn').forEach(btn => {
+          const isMatch = btn.getAttribute('data-page-mode') === pageModalMode;
+          btn.className = isMatch
+            ? 'page-mode-btn py-2 px-3 rounded-lg text-xs font-semibold bg-indigo-600 text-white cursor-pointer'
+            : 'page-mode-btn py-2 px-3 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 cursor-pointer';
+        });
+
+        if (pageModalMode === 'add') {
+          pagesLabel.textContent = `Extra pages to append (current: ${appState.totalPages} pp.)`;
+          pagesInput.placeholder = 'e.g. 50';
+        } else {
+          pagesLabel.textContent = `New total course pages (min: ${INITIAL_PAGES} pp.)`;
+          pagesInput.placeholder = 'e.g. 195';
         }
+      }
+
+      document.getElementById('openAddPagesBtn').addEventListener('click', () => {
+        updatePageModeUI();
+        addPagesModal.classList.remove('hidden');
+        addPagesModal.classList.add('flex');
+        setTimeout(() => pagesInput.focus(), 50);
       });
 
-      // 5. Add item via "+ Add" button or Delete via "×" button
-      container.addEventListener('click', (e) => {
-        const addBtn = e.target.closest('.stage-add-btn');
-        if (addBtn) {
-          const stage = addBtn.getAttribute('data-add-btn-stage');
-          const dateIso = addBtn.getAttribute('data-date-iso');
-          const inputEl = addBtn.parentElement.querySelector('.stage-add-input');
-          handleAddStageItem(stage, dateIso, inputEl);
-          return;
-        }
+      function closeAddPagesModal() {
+        addPagesModal.classList.add('hidden');
+        addPagesModal.classList.remove('flex');
+        pagesInput.value = '';
+      }
 
-        const delBtn = e.target.closest('.delete-item-btn');
-        if (delBtn) {
-          const type = delBtn.getAttribute('data-delete-type');
-          const id = delBtn.getAttribute('data-delete-id');
-          handleDeleteItem(type, id);
-        }
+      document.getElementById('closeAddPagesModalBtn').addEventListener('click', closeAddPagesModal);
+      document.getElementById('cancelAddPagesBtn').addEventListener('click', closeAddPagesModal);
+      addPagesModal.addEventListener('click', (e) => {
+        if (e.target === addPagesModal) closeAddPagesModal();
       });
 
-      // 6. Filter tabs
-      document.querySelectorAll('.filter-btn').forEach(btn => {
+      document.querySelectorAll('.page-mode-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          state.filter = btn.getAttribute('data-filter');
-          saveState();
-          updateFilterButtons();
-          renderApp();
+          pageModalMode = btn.getAttribute('data-page-mode');
+          updatePageModeUI();
+          pagesInput.focus();
         });
       });
 
-      // 7. Jump to Today
-      document.getElementById('jumpTodayBtn').addEventListener('click', () => {
-        const todayIso = getRealTodayIso();
-        if (state.filter === 'completed') {
-          state.filter = 'all';
-          saveState();
-          updateFilterButtons();
-          renderApp();
-        }
-        const todayEl = document.getElementById(`day_${todayIso}`);
-        if (todayEl) {
-          todayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-          showToast('Today is outside the current range — switched to All Days');
-          state.filter = 'all';
-          saveState();
-          updateFilterButtons();
-          renderApp();
-        }
-      });
-
-      // 8. Non-destructive "Add Remaining Pages" Drawer
-      const addPagesDrawer = document.getElementById('addPagesDrawer');
-      document.getElementById('toggleAddPagesBtn').addEventListener('click', () => {
-        addPagesDrawer.classList.toggle('hidden');
-        if (!addPagesDrawer.classList.contains('hidden')) {
-          document.getElementById('pagesInput').focus();
-        }
-      });
-
-      document.getElementById('closeAddPagesBtn').addEventListener('click', () => {
-        addPagesDrawer.classList.add('hidden');
-      });
-
-      document.getElementById('applyPagesBtn').addEventListener('click', () => {
-        const mode = document.getElementById('addPageModeSelect').value;
-        const val = parseInt(document.getElementById('pagesInput').value, 10);
-
+      document.getElementById('addPagesForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = parseInt(pagesInput.value, 10);
         if (isNaN(val) || val <= 0) {
           showToast('Enter a valid positive number of pages');
           return;
         }
 
-        let newTotal = state.totalPages;
-        if (mode === 'add') {
-          newTotal = state.totalPages + val;
+        let nextTotal = appState.totalPages;
+        if (pageModalMode === 'add') {
+          nextTotal = appState.totalPages + val;
         } else {
-          if (val < BASE_PAGES) {
-            showToast(`Total pages cannot be less than ${BASE_PAGES}`);
+          if (val < INITIAL_PAGES) {
+            showToast(`Total pages cannot be less than ${INITIAL_PAGES}`);
             return;
           }
-          newTotal = val;
+          nextTotal = val;
         }
 
-        if (newTotal > 1000) {
+        if (nextTotal > 1000) {
           showToast('Maximum supported syllabus size is 1,000 pages');
           return;
         }
 
-        const delta = newTotal - state.totalPages;
-        state.totalPages = newTotal;
+        const added = nextTotal - appState.totalPages;
+        appState.totalPages = nextTotal;
         saveState();
-        renderApp();
-        document.getElementById('pagesInput').value = '';
-        addPagesDrawer.classList.add('hidden');
+        renderAll();
+        closeAddPagesModal();
 
-        showToast(delta >= 0
-          ? `Added +${delta} pages (${newTotal} pp. total) — all progress preserved!`
-          : `Updated syllabus to ${newTotal} pages — progress preserved!`
+        showToast(added >= 0
+          ? `Added +${added} pages (${nextTotal} pp. total) — progress preserved!`
+          : `Updated syllabus to ${nextTotal} pages — progress preserved!`
         );
       });
 
-      document.getElementById('trimExtraPagesBtn').addEventListener('click', () => {
-        state.totalPages = BASE_PAGES;
+      document.getElementById('revertPagesBtn').addEventListener('click', () => {
+        appState.totalPages = INITIAL_PAGES;
         saveState();
-        renderApp();
+        renderAll();
+        closeAddPagesModal();
         showToast('Reverted syllabus to 150 pages (B1–B15)');
       });
 
-      // 9. Export JSON Backup
-      document.getElementById('exportBackupBtn').addEventListener('click', () => {
-        const payload = {
-          app: 'LinearAlgebraGeometrySpacedRepetitionTracker',
-          version: 3,
+      // 10. JSON Export
+      document.getElementById('exportBtn').addEventListener('click', () => {
+        const exportObj = {
+          app: 'LinearAlgebraGeometrySpacedRepetitionCalendar',
+          version: 1,
           exportedAt: new Date().toISOString(),
-          data: state
+          state: appState
         };
-        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `algebra-tracker-backup-${getRealTodayIso()}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `algebra-calendar-backup-${getLocalTodayIso()}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        showToast('JSON backup downloaded');
+        showToast('JSON backup exported');
       });
 
-      // 10. Import JSON Backup
+      // 11. JSON Import
       const importInput = document.getElementById('importFileInput');
-      document.getElementById('importBackupBtn').addEventListener('click', () => {
+      document.getElementById('importBtn').addEventListener('click', () => {
         importInput.click();
       });
 
@@ -1649,27 +1580,24 @@
         reader.onload = (ev) => {
           try {
             const parsed = JSON.parse(ev.target.result);
-            const imported = parsed.data ? parsed.data : parsed;
-            if (!imported || typeof imported.completedTasks !== 'object') {
-              throw new Error('Invalid backup format');
+            const imported = parsed && parsed.state ? parsed.state : parsed;
+            if (!imported || typeof imported.completedMap !== 'object') {
+              throw new Error('Invalid backup structure');
             }
-            state.totalPages = typeof imported.totalPages === 'number' && imported.totalPages >= BASE_PAGES
+
+            appState.totalPages = typeof imported.totalPages === 'number' && imported.totalPages >= INITIAL_PAGES
               ? imported.totalPages
-              : BASE_PAGES;
-            state.completedTasks = imported.completedTasks || {};
-            state.blockNotes = imported.blockNotes || {};
-            state.day3Items = Array.isArray(imported.day3Items) ? imported.day3Items : [];
-            state.day7Standalone = Array.isArray(imported.day7Standalone) ? imported.day7Standalone : [];
-            state.day18Standalone = Array.isArray(imported.day18Standalone) ? imported.day18Standalone : [];
-            state.filter = imported.filter || 'all';
+              : INITIAL_PAGES;
+            appState.completedMap = imported.completedMap || {};
+            appState.customCascades = Array.isArray(imported.customCascades) ? imported.customCascades : [];
+            appState.singleTasks = Array.isArray(imported.singleTasks) ? imported.singleTasks : [];
 
             saveState();
-            updateFilterButtons();
-            renderApp();
-            showToast('Backup restored successfully');
+            renderAll();
+            showToast('Backup imported successfully');
           } catch (err) {
-            console.error('Import error:', err);
-            showToast('Invalid JSON backup file');
+            console.error('Import failed:', err);
+            showToast('Could not read JSON backup file');
           } finally {
             importInput.value = '';
           }
@@ -1677,42 +1605,56 @@
         reader.readAsText(file);
       });
 
-      // 11. Custom Reset Confirmation Modal
+      // 12. Reset Modal
       const resetModal = document.getElementById('resetModal');
-      document.getElementById('openResetModalBtn').addEventListener('click', () => {
+      document.getElementById('openResetBtn').addEventListener('click', () => {
         resetModal.classList.remove('hidden');
         resetModal.classList.add('flex');
       });
 
-      document.getElementById('cancelResetBtn').addEventListener('click', () => {
+      function closeResetModal() {
         resetModal.classList.add('hidden');
         resetModal.classList.remove('flex');
-      });
+      }
 
+      document.getElementById('cancelResetBtn').addEventListener('click', closeResetModal);
       resetModal.addEventListener('click', (e) => {
-        if (e.target === resetModal) {
-          resetModal.classList.add('hidden');
-          resetModal.classList.remove('flex');
-        }
+        if (e.target === resetModal) closeResetModal();
       });
 
       document.getElementById('confirmResetBtn').addEventListener('click', () => {
-        state = createDefaultState();
+        appState = {
+          totalPages: INITIAL_PAGES,
+          completedMap: {},
+          customCascades: [],
+          singleTasks: []
+        };
         saveState();
-        updateFilterButtons();
-        renderApp();
-        resetModal.classList.add('hidden');
-        resetModal.classList.remove('flex');
-        showToast('Tracker reset to Day 1 defaults');
+        selectDate(START_DATE_ISO);
+        closeResetModal();
+        showToast('Tracker reset to Monday, Nov 30 defaults');
       });
     }
 
-    // Initialize Application
+    /**
+     * ============================================================================
+     * INITIALIZE APPLICATION
+     * ============================================================================
+     */
     window.addEventListener('DOMContentLoaded', () => {
       loadState();
-      updateFilterButtons();
-      renderApp();
+
+      // Default selected date: Today if within Nov 30, 2026 – Jan 21, 2027, else Nov 30, 2026
+      const todayIso = getLocalTodayIso();
+      if (todayIso >= START_DATE_ISO && todayIso <= EXAM_DATE_ISO) {
+        selectedDateIso = todayIso;
+      } else {
+        selectedDateIso = START_DATE_ISO;
+      }
+      activeMonthKey = selectedDateIso.slice(0, 7);
+
       bindEvents();
+      renderAll();
     });
   </script>
 </body>
